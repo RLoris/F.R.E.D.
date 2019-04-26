@@ -8,6 +8,7 @@ app-env, app-health {
 mat-grid-list {
   width: 100%;
 }
+
 .container {
   text-align: center;
 }
@@ -23,5 +24,30 @@ mat-grid-list {
   width: 100%;
   object-fit: cover;
   background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+
+#overlayContainer #stream, #overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#stream {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+#overlay {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 

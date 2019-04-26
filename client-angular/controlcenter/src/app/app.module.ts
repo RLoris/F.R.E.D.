@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { OverlayComponent } from './overlay/overlay.component';
 import { EnvComponent } from './env/env.component';
 
-import {MatCardModule} from '@angular/material';
+import {MatCardModule, MatProgressBarModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 
 import { HealthComponent } from './health/health.component';
@@ -25,7 +25,8 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     MatCardModule,
     MatGridListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

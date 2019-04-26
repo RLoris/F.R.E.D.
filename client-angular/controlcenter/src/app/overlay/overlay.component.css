@@ -1,0 +1,27 @@
+app-env, app-health {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  opacity: 0.6;
+}
+
+mat-grid-list {
+  width: 100%;
+}
+.container {
+  text-align: center;
+}
+
+.overlay {
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: -9999;
+  position: absolute;
+  margin: 0%;
+  padding: 0%;
+  width: 100%;
+  object-fit: cover;
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+

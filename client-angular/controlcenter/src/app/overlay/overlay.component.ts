@@ -46,9 +46,6 @@ export class OverlayComponent implements OnInit {
 
   buttonLock = false;
 
-  // refresh rate
-  refreshRate: number;
-
   constructor() {}
 
   ngOnInit() {

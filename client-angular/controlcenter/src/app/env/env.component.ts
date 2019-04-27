@@ -33,6 +33,7 @@ export class EnvComponent implements OnInit {
       let h = date.getHours().toString();
       let m = date.getMinutes().toString();
       let s = date.getSeconds().toString();
+      h = (parseInt(h) == 0 || parseInt(h) < 10) ? '0' + h : h;
       m = (parseInt(m) < 10) ? '0' + m : m;
       s = (parseInt(s) < 10) ? '0' + s : s;
       const time = h + ':' + m + ':' + s;
@@ -40,7 +41,5 @@ export class EnvComponent implements OnInit {
       document.getElementById('clockDisplay').textContent = time;
 
   }
-
-
 
 }

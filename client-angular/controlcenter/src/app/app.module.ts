@@ -27,7 +27,8 @@ import { TransitComponent } from './transit/transit.component';
     ChillMusicVideoComponent,
     RelaxAndBreatheComponent,
     EarthComponent,
-    FredComponent
+    FredComponent,
+    TransitComponent
   ],
   imports: [
     BrowserModule,

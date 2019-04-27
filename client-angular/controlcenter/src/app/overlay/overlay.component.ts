@@ -43,17 +43,18 @@ export class OverlayComponent implements OnInit {
   // loading models and stream not available
   displayStream = 'none';
   isLoading = true;
-  isOccupied = false;
-  labeledDescriptors;
   private streamId;
   private detectId;
-  private modelLoaded;
-
 
   // person in front of camera
-  isDetected = false;
   detectedId = null;
   background = null;
+
+  isOccupied = false;
+  isDust = false;
+  labeledDescriptors;
+
+  private modelLoaded;
 
   constructor(public toast: MatSnackBar, private sanitizer: DomSanitizer) {
     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
@@ -63,12 +64,11 @@ export class OverlayComponent implements OnInit {
 
   ngOnInit() {
     this.detectedId = null;
-    this.isDetected = true; // Wait
     this.opencam();
   }
 
   isVisible() {
-    if (this.isDetected) {
+    if (this.isOccupied) {
       return 'visible';
     } else {
       return 'hidden';
@@ -108,22 +108,24 @@ export class OverlayComponent implements OnInit {
         if (this.modelLoaded) {
           console.log('scanning for face');
           const result = await faceapi.detectSingleFace(this.video.nativeElement)
+          .withFaceExpressions()
           .withFaceLandmarks()
           .withFaceDescriptor();
+
           console.log(result);
+
           if (!result) {
-            if (!this.detectedId) {
+            if (!this.isDust) {
               this.detectedId = setTimeout( () => {
-                // this.isDetected = false;
                 this.isOccupied = false;
+                this.isDust = true;
                 this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
                 console.log('changing to dust');
                 this.video.nativeElement.loop = true;
               }, 5000);
             }
           } else {
-              clearTimeout(this.detectedId);
-              if (!this.isOccupied) {
+              if (this.isOccupied === false) {
                 const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
                 const bestMatch = faceMatcher.findBestMatch(result.descriptor);
                 switch (bestMatch.label) {
@@ -151,19 +153,33 @@ export class OverlayComponent implements OnInit {
                     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/victor.mp4');
                     break;
                   }
+                  default: {
+                    this.isOccupied = false;
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                    return;
+                  }
                 }
-                console.log(bestMatch.label.toString());
+                console.log('nom : ' + bestMatch.label.toString());
+                clearTimeout(this.detectedId);
                 this.isOccupied = true;
+                this.isDust = false;
                 this.video.nativeElement.loop = false;
-                this.isDetected = true;
                 setTimeout( () => {
                   this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
                   this.video.nativeElement.loop = true;
                 }, 5000);
               }
+              result.expressions.forEach( expression => {
+                if (expression.probability >= 0.80) {
+                  if (expression.expression === 'sad' || expression.expression === 'angry') {
+                    // Operate changes on the environnement here
+                    console.log(expression.expression);
+                  }
+                }
+              } );
           }
         }
-      }, 2000);
+      }, 3000);
     }
   }
 
@@ -342,6 +358,4 @@ export class OverlayComponent implements OnInit {
   private handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
   }
-
-
 }

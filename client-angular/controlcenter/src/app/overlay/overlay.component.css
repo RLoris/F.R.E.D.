@@ -14,7 +14,8 @@ app-env, app-health {
 }
 
 mat-grid-list {
-  width: 100%;
+  margin: 5%;
+  width: 90%;
 }
 
 .container {

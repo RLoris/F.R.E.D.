@@ -64,6 +64,14 @@ export class OverlayComponent implements OnInit {
     this.loadModels();
   }
 
+  isVisible() {
+    if (this.isDetected) {
+      return 'visible';
+    } else {
+      return 'hidden';
+    }
+  }
+
   async loadModels() {
     await faceapi.loadSsdMobilenetv1Model('assets/models').then(
       async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
@@ -87,9 +95,9 @@ export class OverlayComponent implements OnInit {
         if (!result) {
           if (!this.detectedId) {
             this.detectedId = setTimeout( () => {
-              console.log('no one detected');
               this.isDetected = false;
               this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+              console.log('changing to dust');
               this.video.nativeElement.loop = true;
             }, 10000);
           }
@@ -97,13 +105,14 @@ export class OverlayComponent implements OnInit {
           console.log('someone detected');
           clearTimeout(this.detectedId);
           if (this.isDetected === false) {
+            console.log('changing to preview');
             this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/preview.mp4');
             this.video.nativeElement.loop = false;
           }
           this.detectedId = null;
           this.isDetected = true;
         }
-      }, 5000);
+      }, 2000);
     }
 }
 

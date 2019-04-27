@@ -10,7 +10,10 @@ import {MatCardModule, MatProgressBarModule, MatSnackBarModule} from '@angular/m
 import {MatGridListModule} from '@angular/material/grid-list';
 
 import { HealthComponent } from './health/health.component';
-import { MatButtonModule } from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
+import { FredComponent } from './fred/fred.component';
+import { ChillMusicVideoComponent } from './chill-music-video/chill-music-video.component';
+import { RelaxAndBreatheComponent } from './relax-and-breathe/relax-and-breathe.component';
 import { EarthComponent } from './earth/earth.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TransitComponent } from './transit/transit.component';
@@ -21,8 +24,10 @@ import { TransitComponent } from './transit/transit.component';
     OverlayComponent,
     EnvComponent,
     HealthComponent,
+    ChillMusicVideoComponent,
+    RelaxAndBreatheComponent,
     EarthComponent,
-    TransitComponent
+    FredComponent
   ],
   imports: [
     BrowserModule,

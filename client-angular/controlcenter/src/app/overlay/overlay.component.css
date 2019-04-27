@@ -17,7 +17,8 @@ app-env, app-health, app-earth, app-transit {
 }
 
 mat-grid-list {
-  width: 100%;
+  margin: 5%;
+  width: 90%;
 }
 
 .container {

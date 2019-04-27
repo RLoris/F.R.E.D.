@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as faceapi from 'face-api.js';
 import { MatSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Subject } from 'rxjs';
 
 faceapi.env.monkeyPatch({
   Canvas: HTMLCanvasElement,
@@ -19,7 +20,6 @@ faceapi.env.monkeyPatch({
   styleUrls: ['./overlay.component.css']
 })
 export class OverlayComponent implements OnInit {
-
 
   // preferred camera
   private videoSource;
@@ -54,13 +54,17 @@ export class OverlayComponent implements OnInit {
   detectedId = null;
   background = null;
 
+  // dispatching
+  actionSubject = new Subject<any>();
+  actionObservable = this.actionSubject.asObservable();
+
   constructor(public toast: MatSnackBar, private sanitizer: DomSanitizer) {
     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
   }
 
   ngOnInit() {
     this.detectedId = null;
-    this.isDetected = false;
+    this.isDetected = true; // Wait
     this.opencam();
     this.loadModels();
   }
@@ -122,7 +126,7 @@ export class OverlayComponent implements OnInit {
               console.log('changing to preview');
               this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
               setTimeout( () => {
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
+                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
                 this.video.nativeElement.loop = true;
               }, 4000);
               this.video.nativeElement.loop = false;
@@ -133,7 +137,7 @@ export class OverlayComponent implements OnInit {
         } else {
           console.log('waiting for models to load.');
         }
-      }, 2000);
+      }, 5000);
     }
 }
 
@@ -150,6 +154,8 @@ export class OverlayComponent implements OnInit {
 
    /* Start or restart the stream using a specific videosource and inject it in a container */
   public startStream(videoSource = null) {
+
+    this.videoSource = localStorage.getItem('camId');
 
     if (navigator.mediaDevices) {
         if (this.selectors.map(s => s.id).indexOf(this.videoSource) === -1) {
@@ -213,5 +219,8 @@ export class OverlayComponent implements OnInit {
     console.log('navigator.getUserMedia error: ', error);
   }
 
+  dispatcher($event) {
+    this.actionSubject.next($event);
+  }
 
 }

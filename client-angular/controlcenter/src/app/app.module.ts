@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { OverlayComponent } from './overlay/overlay.component';
 import { EnvComponent } from './env/env.component';
 
-import { MatCardModule, MatProgressBarModule } from '@angular/material';
-import { MatGridListModule } from '@angular/material/grid-list';
+import {MatCardModule, MatProgressBarModule, MatSnackBarModule} from '@angular/material';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import { HealthComponent } from './health/health.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatGridListModule,
     MatButtonModule,
     MatProgressBarModule,
+    MatSnackBarModule
     HttpClientModule
   ],
   providers: [],

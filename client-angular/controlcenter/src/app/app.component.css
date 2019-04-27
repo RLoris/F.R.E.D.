@@ -1,3 +1,8 @@
 * {
   margin: 0;
 }
+
+@font-face {
+  font-family: "BebasNeue-Light";
+  src: local("../assets/font/BebasNeue-Book.otf") format("otf");
+}

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { log } from 'util';
 import MiBand from 'miband';
 
+// @ts-ignore
+const bluetooth = navigator.bluetooth;
 
 @Component({
   selector: 'app-health',
@@ -12,24 +13,66 @@ export class HealthComponent implements OnInit {
 
   constructor() { }
 
-  async ngOnInit() {
-    // @ts-ignore
-    const bluetooth = navigator.bluetooth;
+  ngOnInit(): void {
+  }
 
-    const device = await bluetooth.requestDevice({
-      filters: [
-        { services: [MiBand.advertisementService] }
-      ],
-      optionalServices: MiBand.optionalServices
-    });
+  async connect() {
+    if (!bluetooth) {
+        console.log('WebBluetooth is not supported by your browser!');
+        return;
+      }
 
-    const server = await device.gatt.connect();
+    try {
+        console.log('Requesting Bluetooth Device...');
 
-    const miband = new MiBand(server);
-    await miband.init();
+        const device = await bluetooth.requestDevice({
+          acceptAllDevices: true
+        });
 
-    log('Notifications demo...')
-    await miband.showNotification('message');
+        if (device.gatt) {
+          device.ongattserverdisconnected = () => console.log('Device disconnected');
+          const server = device.gatt.connect();
+
+          const miband = new MiBand(server);
+
+          // await miband.init();
+        }
+
+        console.log(device);
+
+      } catch (error) {
+        console.log(error);
+      }
+  /*
+    try {
+        console.log('Requesting Bluetooth Device...');
+        const device = await bluetooth.requestDevice({
+          filters: [
+            { services: [ MiBand.advertisementService ] }
+          ],
+          optionalServices: MiBand.optionalServices
+        });
+
+        device.addEventListener('gattserverdisconnected', () => {
+          console.log('Device disconnected');
+        });
+
+        await device.gatt.disconnect();
+
+        console.log('Connecting to the device...');
+        const server = await device.gatt.connect();
+        console.log('Connected');
+
+        const miband = new MiBand(server);
+
+        await miband.init();
+
+        // await test_all(miband, log);
+
+      } catch (error) {
+        console.log('Argh!', error);
+      }
+    */
   }
 
 }

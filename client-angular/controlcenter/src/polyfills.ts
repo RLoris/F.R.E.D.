@@ -56,8 +56,12 @@
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
+import { prototype } from 'jasmine';
 
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+(window as any).global = window;
+// @ts-ignore
+window.Buffer = window.Buffer || require('buffer').Buffer;

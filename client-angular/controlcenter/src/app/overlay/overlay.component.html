@@ -25,39 +25,28 @@
   </mat-card>
 
 <mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
-        <app-health (emitter)=this.dispatcher($event)></app-health>
-        <app-fred [receiver]=this.actionObservable></app-fred>
-        <app-env></app-env>
+  <app-fred [receiver]=this.actionObservable></app-fred>
   <mat-grid-tile>
     <app-env></app-env>
   </mat-grid-tile>
-  <mat-grid-tile>
-  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile>
+    <app-chill-music-video></app-chill-music-video>
   </mat-grid-tile>
   <mat-grid-tile>
-      <app-earth></app-earth>
+    <app-earth></app-earth>
   </mat-grid-tile>
   <mat-grid-tile>
-    <app-health></app-health>
-  </mat-grid-tile>
-  <mat-grid-tile>
-
+    <app-health (emitter)=this.dispatcher($event)></app-health>
   </mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile>
-
-  </mat-grid-tile>
-  <mat-grid-tile>
-
-  </mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile>
-  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
 </mat-grid-list>

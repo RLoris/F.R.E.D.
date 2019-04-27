@@ -25,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     HealthComponent,
     ChillMusicVideoComponent,
     RelaxAndBreatheComponent,
-    EarthComponent
+    EarthComponent,
     FredComponent
   ],
   imports: [

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as faceapi from 'face-api.js';
+import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
+import { Subject } from 'rxjs';
 
 faceapi.env.monkeyPatch({
   Canvas: HTMLCanvasElement,
@@ -40,24 +42,40 @@ export class OverlayComponent implements OnInit {
   // loading models and stream not available
   displayStream = 'none';
   isLoading = true;
-
+  modelLoaded = false;
+  labeledDescriptors;
   private streamId;
   private detectId;
 
-  buttonLock = false;
 
-  constructor() {}
+  buttonLock = false;
+  constructor() {
+    this.labeledDescriptors = [];
+    this.loadModels();
+  }
 
   ngOnInit() {
     this.opencam();
-    this.loadModels();
+    setTimeout(() => console.log(this.labeledDescriptors), 10000);
   }
 
   async loadModels() {
     await faceapi.loadSsdMobilenetv1Model('assets/models').then(
       async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
         async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
-          async () => await faceapi.loadFaceExpressionModel('assets/models')
+          async () => await faceapi.loadFaceExpressionModel('assets/models').then(
+            async () => await this.lorisLabeledDescriptors().then (
+              async () => await this.massimoLabeledDescriptors().then (
+                async () => await this.melissaLabeledDescriptors().then (
+                  async () => await this.guillaumeLabeledDescriptors().then (
+                    async () => await this.romainLabeledDescriptors().then (
+                      async () => await this.victorLabeledDescriptors()
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       )
     );
@@ -69,14 +87,18 @@ export class OverlayComponent implements OnInit {
     if (!this.detectId) {
       // detection interval: default 3000
       this.detectId = setInterval( async () => {
-        const result = await faceapi.detectSingleFace(this.video.nativeElement)
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-        if (!result) {
-          console.log('no face recognized');
-          return;
-        } else {
-          console.log(result);
+        if (this.modelLoaded) {
+          const result = await faceapi.detectSingleFace(this.video.nativeElement)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+          if (!result) {
+            console.log('no face recognized');
+            return;
+          } else {
+            const faceMatcher = new faceapi.FaceMatcher(result);
+            const bestMatch = faceMatcher.findBestMatch(result.descriptor);
+            console.log(bestMatch.label.toString());
+          }
         }
       }, 1000);
     }
@@ -151,6 +173,144 @@ export class OverlayComponent implements OnInit {
     }
 
     return videouputs;
+  }
+
+  private async guillaumeLabeledDescriptors() {
+    const arrayDescriptors = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Guillaume/Premium' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result);
+    }
+
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Guillaume',
+      arrayDescriptors
+    ));
+
+    console.log(this.labeledDescriptors);
+  }
+
+  private async lorisLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = new Float32Array();
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Loris/Lolis' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    const arrayLebeledDescriptors: LabeledFaceDescriptors = new LabeledFaceDescriptors('Loris', arrayDescriptors);
+    /*
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Loris',
+      arrayDescriptors
+    ));
+    */
+  }
+
+  private async massimoLabeledDescriptors() {
+
+    const arrayDescriptors = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Massimo/Chuck' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result);
+    }
+
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Massimo',
+      arrayDescriptors
+    ));
+
+
+    console.log(this.labeledDescriptors);
+  }
+
+  private async melissaLabeledDescriptors() {
+
+    const arrayDescriptors = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Melissa/Melissa' + i + '.jpg';
+      img.src = path;
+      console.log(path);
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result);
+    }
+    console.log(arrayDescriptors);
+
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Melissa',
+      arrayDescriptors
+    ));
+
+
+    console.log(this.labeledDescriptors);
+  }
+
+  private async romainLabeledDescriptors() {
+
+    const arrayDescriptors = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Romain/Cercle' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result);
+    }
+
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Romain',
+      arrayDescriptors
+    ));
+
+
+    console.log(this.labeledDescriptors);
+  }
+
+  private async victorLabeledDescriptors() {
+
+    const arrayDescriptors = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Victor/Etchebest' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result);
+    }
+
+    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+      'Victor',
+      arrayDescriptors
+    ));
+
+
+    console.log(this.labeledDescriptors);
   }
 
   /* handles all type of errors from usermedia API */

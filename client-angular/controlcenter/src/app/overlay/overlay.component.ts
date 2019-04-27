@@ -122,7 +122,7 @@ export class OverlayComponent implements OnInit {
               console.log('changing to preview');
               this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
               setTimeout( () => {
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
+                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
                 this.video.nativeElement.loop = true;
               }, 4000);
               this.video.nativeElement.loop = false;
@@ -212,6 +212,4 @@ export class OverlayComponent implements OnInit {
   private handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
   }
-
-
 }

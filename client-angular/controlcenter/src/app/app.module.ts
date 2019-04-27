@@ -30,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatGridListModule,
     MatButtonModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [],

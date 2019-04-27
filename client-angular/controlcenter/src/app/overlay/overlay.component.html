@@ -2,47 +2,63 @@
   <video id="stream" [src]=this.background class="overlay center" autoplay>
   </video>
 </div>
-<select #devices >
-    <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}</option>
+<select #devices>
+  <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}
+  </option>
 </select>
 <mat-card style="display:none" class="example-card">
-    <mat-card-header>
-      <mat-card-title>Camera</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-            <div style="text-align: center;">
-                <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate"></mat-progress-bar>
-                  <div>
-                    <div id="overlayContainer" class="center">
-                      <video id="stream" #webcam autoplay></video>
-                      <canvas #canvas2 id="overlay" ></canvas>
-                    </div>
-                  </div>
-            </div>
-    </mat-card-content>
-    <mat-card-actions>
-    </mat-card-actions>
-  </mat-card>
+  <mat-card-header>
+    <mat-card-title>Camera</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="text-align: center;">
+      <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate"></mat-progress-bar>
+      <div>
+        <div id="overlayContainer" class="center">
+          <video id="stream" #webcam autoplay></video>
+          <canvas #canvas2 id="overlay"></canvas>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>
 
 <mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
-  <app-fred [receiver]=this.actionObservable></app-fred>
+
+
   <mat-grid-tile>
     <app-env></app-env>
   </mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile>
-    <app-chill-music-video></app-chill-music-video>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
   </mat-grid-tile>
   <mat-grid-tile>
     <app-earth></app-earth>
   </mat-grid-tile>
   <mat-grid-tile>
-    <app-health (emitter)=this.dispatcher($event)></app-health>
+      <app-health (emitter)=this.dispatcher($event)></app-health>
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+      <app-fred [receiver]=this.actionObservable></app-fred>
   </mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
+  <mat-grid-tile>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+  </mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>
   <mat-grid-tile></mat-grid-tile>

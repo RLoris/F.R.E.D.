@@ -102,7 +102,7 @@ export class OverlayComponent implements OnInit {
         }
         // select specific camera on mobile
         this.videoSource = videoSource === null ?
-        ( this.videoSource ? this.videoSource : this.selectors[1].id) : videoSource;
+        ( this.videoSource ? this.videoSource : this.selectors[0].id) : videoSource;
 
         // save prefered cam
         localStorage.setItem('camId', this.videoSource);

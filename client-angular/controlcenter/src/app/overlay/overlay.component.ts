@@ -3,6 +3,7 @@ import * as faceapi from 'face-api.js';
 import { MatSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LabeledFaceDescriptors } from 'face-api.js';
+import { Subject } from 'rxjs';
 
 faceapi.env.monkeyPatch({
   Canvas: HTMLCanvasElement,
@@ -20,7 +21,6 @@ faceapi.env.monkeyPatch({
   styleUrls: ['./overlay.component.css']
 })
 export class OverlayComponent implements OnInit {
-
 
   // preferred camera
   private videoSource;
@@ -55,6 +55,9 @@ export class OverlayComponent implements OnInit {
   labeledDescriptors;
 
   private modelLoaded;
+  // dispatching
+  actionSubject = new Subject<any>();
+  actionObservable = this.actionSubject.asObservable();
 
   constructor(public toast: MatSnackBar, private sanitizer: DomSanitizer) {
     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
@@ -165,7 +168,7 @@ export class OverlayComponent implements OnInit {
                 this.isDust = false;
                 this.video.nativeElement.loop = false;
                 setTimeout( () => {
-                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
                   this.video.nativeElement.loop = true;
                 }, 5000);
               }
@@ -196,6 +199,8 @@ export class OverlayComponent implements OnInit {
 
    /* Start or restart the stream using a specific videosource and inject it in a container */
   public startStream(videoSource = null) {
+
+    this.videoSource = localStorage.getItem('camId');
 
     if (navigator.mediaDevices) {
         if (this.selectors.map(s => s.id).indexOf(this.videoSource) === -1) {
@@ -358,4 +363,9 @@ export class OverlayComponent implements OnInit {
   private handleError(error) {
     console.log('navigator.getUserMedia error: ', error);
   }
+
+  dispatcher($event) {
+    this.actionSubject.next($event);
+  }
+
 }

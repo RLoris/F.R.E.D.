@@ -1,6 +1,10 @@
 {
   "name": "controlcenter",
   "version": "0.0.0",
+  "browser": {
+    "crypto":false,
+    "fs":false
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

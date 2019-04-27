@@ -11,16 +11,17 @@ const bluetooth = navigator.bluetooth;
 })
 export class HealthComponent implements OnInit {
 
-  time;
   battery;
   ped;
   rate;
+  display = false;
 
 
   constructor() { }
 
   ngOnInit(): void {
     this.selectDevice();
+    this.display = false;
   }
 
   async selectDevice() {
@@ -41,8 +42,6 @@ export class HealthComponent implements OnInit {
         // console.log(device);
 
         if (device.gatt) {
-          console.log(device);
-          localStorage.setItem('device', JSON.stringify(device.gatt));
           this.connect(device);
         }
 
@@ -52,6 +51,8 @@ export class HealthComponent implements OnInit {
   }
 
   async connect(device) {
+    this.display = false;
+
     device.ongattserverdisconnected = () => console.log('Device disconnected');
 
     await device.gatt.disconnect();
@@ -88,15 +89,6 @@ export class HealthComponent implements OnInit {
       console.log(this.battery + '%');
     }, 120000 );
 
-
-    const time = await miband.getTime();
-    this.time = time.toLocaleString();
-    setInterval( async () => {
-      const t = await miband.getTime();
-      this.time = t.toLocaleString();
-      console.log(t);
-    }, 60000);
-
     this.ped = await miband.getPedometerStats();
     setInterval(async () => {
       this.ped = await miband.getPedometerStats();
@@ -128,6 +120,8 @@ export class HealthComponent implements OnInit {
     miband.on('button', () => {
 
     });
+
+    this.display = true;
     /*try {
       await miband.waitButton(10000);
     } catch (e) {

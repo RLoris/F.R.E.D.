@@ -50,6 +50,17 @@ export class OverlayComponent implements OnInit {
 
   ngOnInit() {
     this.opencam();
+    this.loadModels();
+  }
+
+  async loadModels() {
+    await faceapi.loadSsdMobilenetv1Model('assets/models').then(
+      async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
+        async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
+          async () => await faceapi.loadFaceExpressionModel('assets/models')
+        )
+      )
+    );
   }
 
   initStreamDetection(videoSource = null) {
@@ -57,8 +68,16 @@ export class OverlayComponent implements OnInit {
     console.log('starting scan');
     if (!this.detectId) {
       // detection interval: default 3000
-      this.detectId = setInterval( () => {
-        console.log('Scanning for faces');
+      this.detectId = setInterval( async () => {
+        const result = await faceapi.detectSingleFace(this.video.nativeElement)
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+        if (!result) {
+          console.log('no face recognized');
+          return;
+        } else {
+          console.log(result);
+        }
       }, 1000);
     }
 }
@@ -126,6 +145,7 @@ export class OverlayComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < deviceInfos.length; i++) {
         if (deviceInfos[i].kind === 'videoinput') {
+          console.log(deviceInfos[i].label + '' + i);
           videouputs.push({ id: deviceInfos[i].deviceId, label: deviceInfos[i].label});
         }
     }

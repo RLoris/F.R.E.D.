@@ -72,8 +72,7 @@ export class OverlayComponent implements OnInit {
     if (!this.detectId) {
       // detection interval: default 3000
       this.detectId = setInterval( async () => {
-        if(this.modelLoaded)
-        {
+        if (this.modelLoaded) {
           const result = await faceapi.detectSingleFace(this.video.nativeElement)
           .withFaceExpressions()
           .withFaceLandmarks()
@@ -82,7 +81,17 @@ export class OverlayComponent implements OnInit {
             console.log('no face recognized');
             return;
           } else {
-            console.log(result);
+            result.expressions.forEach( expression => {
+              if (expression.probability >= 0.80) {
+                if (expression.expression === 'happy') {
+                  console.log(expression.expression);
+                } else if (expression.expression === 'sad') {
+                  console.log(expression.expression);
+                } else if (expression.expression === 'angry') {
+                  console.log(expression.expression);
+                }
+              }
+            } );
           }
         }
       }, 1000);

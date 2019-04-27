@@ -45,6 +45,7 @@ export class OverlayComponent implements OnInit {
 
   private streamId;
   private detectId;
+  private modelLoaded;
 
   buttonLock = false;
 
@@ -76,7 +77,9 @@ export class OverlayComponent implements OnInit {
     await faceapi.loadSsdMobilenetv1Model('assets/models').then(
       async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
         async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
-          async () => await faceapi.loadFaceExpressionModel('assets/models')
+          async () => await faceapi.loadFaceExpressionModel('assets/models').then(
+            async () => this.modelLoaded = true
+          )
         )
       )
     );
@@ -88,33 +91,47 @@ export class OverlayComponent implements OnInit {
     if (!this.detectId) {
       // detection interval: default 3000
       this.detectId = setInterval( async () => {
-        console.log('scanning for face');
-        const result = await faceapi.detectSingleFace(this.video.nativeElement)
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-        if (!result) {
-          if (!this.detectedId) {
-            this.detectedId = setTimeout( () => {
-              this.isDetected = false;
-              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
-              console.log('changing to dust');
-              this.video.nativeElement.loop = true;
-            }, 10000);
+        if (this.modelLoaded) {
+          console.log('scanning for face');
+          const result = await faceapi.detectSingleFace(this.video.nativeElement)
+          .withFaceExpressions()
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+          if (!result) {
+            if (!this.detectedId) {
+              this.detectedId = setTimeout( () => {
+                this.isDetected = false;
+                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
+                console.log('changing to dust');
+                this.video.nativeElement.loop = true;
+              }, 10000);
+            }
+          } else {
+            console.log('someone detected');
+            clearTimeout(this.detectedId);
+            // detecting emotions
+            result.expressions.forEach( expression => {
+              if (expression.probability >= 0.80) {
+                if (expression.expression === 'sad' || expression.expression === 'angry') {
+                  // Operate changes on the environnement here
+                  console.log(expression.expression);
+                }
+              }
+            } );
+            if (this.isDetected === false) {
+              console.log('changing to preview');
+              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
+              setTimeout( () => {
+                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
+                this.video.nativeElement.loop = true;
+              }, 4000);
+              this.video.nativeElement.loop = false;
+            }
+            this.detectedId = null;
+            this.isDetected = true;
           }
         } else {
-          console.log('someone detected');
-          clearTimeout(this.detectedId);
-          if (this.isDetected === false) {
-            console.log('changing to preview');
-            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
-            setTimeout( () => {
-              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
-              this.video.nativeElement.loop = true;
-            }, 4000);
-            this.video.nativeElement.loop = false;
-          }
-          this.detectedId = null;
-          this.isDetected = true;
+          console.log('waiting for models to load.');
         }
       }, 2000);
     }

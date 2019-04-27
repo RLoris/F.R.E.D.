@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import Miband from './miband';
 
 // @ts-ignore
@@ -15,12 +15,12 @@ export class HealthComponent implements OnInit {
   ped;
   rate;
   display = false;
-
+  @Output()
+  emitter: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.selectDevice();
     this.display = false;
   }
 
@@ -118,7 +118,7 @@ export class HealthComponent implements OnInit {
     }, 2000);*/
 
     miband.on('button', () => {
-
+      this.emitter.emit('miband');
     });
 
     this.display = true;

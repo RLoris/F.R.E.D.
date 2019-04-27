@@ -376,3 +376,5 @@ ASALocalRun/
 /client-angular/controlcenter/.DS_Store
 /client-angular/controlcenter/Thumbs.db
 /client-angular/controlcenter/package-lock.json
+
+client-angular/controlcenter/src/app/fred/credentials\.ts

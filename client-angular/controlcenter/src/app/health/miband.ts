@@ -1,6 +1,18 @@
 import { EventEmitter } from 'events';
 
-class MiBand extends EventEmitter {
+const UUID_BASE = (x) => `0000${x}-0000-3512-2118-0009af100700`;
+
+const UUID_SERVICE_GENERIC_ACCESS =     0x1800;
+const UUID_SERVICE_GENERIC_ATTRIBUTE =  0x1801;
+const UUID_SERVICE_DEVICE_INFORMATION = 0x180a;
+const UUID_SERVICE_FIRMWARE =           UUID_BASE('1530');
+const UUID_SERVICE_ALERT_NOTIFICATION = 0x1811;
+const UUID_SERVICE_IMMEDIATE_ALERT =    0x1802;
+const UUID_SERVICE_HEART_RATE =         0x180d;
+const UUID_SERVICE_MIBAND_1 =           0xfee0;
+const UUID_SERVICE_MIBAND_2 =           0xfee1;
+
+export default class Miband extends EventEmitter {
 
   device;
   char;
@@ -26,9 +38,10 @@ class MiBand extends EventEmitter {
     super();
 
     this.device = peripheral;
-    this.char = {};
+    this.char = {} as any;
 
     // TODO: this is constant for now, but should random and managed per-device
+    // @ts-ignore
     this.key = new Buffer('30313233343536373839404142434445', 'hex');
     this.textDec = new TextDecoder();
   }
@@ -93,14 +106,15 @@ class MiBand extends EventEmitter {
     await this.authReqRandomKey();
 
     return new Promise((resolve, reject) => {
-      setTimeout(() => reject('Timeout'), 10000);
+      setTimeout(() => reject('Timeout'), 15000);
+      // @ts-ignore
       this.once('authenticated', resolve);
     });
   }
 
-  authSendNewKey(key)       { return this.char.auth.writeValue(AB([0x01, 0x08], key)); }
-  authReqRandomKey()        { return this.char.auth.writeValue(AB([0x02, 0x08])); }
-  authSendEncKey(encrypted) { return this.char.auth.writeValue(AB([0x03, 0x08], encrypted)); }
+  authSendNewKey(key)       { return this.char.auth.writeValue(this.AB([0x01, 0x08]), key); }
+  authReqRandomKey()        { return this.char.auth.writeValue(this.AB([0x02, 0x08])); }
+  authSendEncKey(encrypted) { return this.char.auth.writeValue(this.AB([0x03, 0x08]), encrypted); }
 
   /*
    * Button
@@ -109,6 +123,7 @@ class MiBand extends EventEmitter {
   waitButton(timeout = 10000) {
     return new Promise((resolve, reject) => {
       setTimeout(() => reject('Timeout'), timeout);
+      // @ts-ignore
       this.once('button', resolve);
     });
   }
@@ -120,10 +135,10 @@ class MiBand extends EventEmitter {
   async showNotification(type = 'message') {
     console.log('Notification:', type);
     switch (type) {
-    case 'message': this.char.alert.writeValue(AB([0x01]));   break;
-    case 'phone':   this.char.alert.writeValue(AB([0x02]));   break;
-    case 'vibrate': this.char.alert.writeValue(AB([0x03]));   break;
-    case 'off':     this.char.alert.writeValue(AB([0x00]));   break;
+    case 'message': this.char.alert.writeValue(this.AB([0x01]));   break;
+    case 'phone':   this.char.alert.writeValue(this.AB([0x02]));   break;
+    case 'vibrate': this.char.alert.writeValue(this.AB([0x03]));   break;
+    case 'off':     this.char.alert.writeValue(this.AB([0x00]));   break;
     default:        throw new Error('Unrecognized notification type');
     }
   }
@@ -133,31 +148,32 @@ class MiBand extends EventEmitter {
    */
 
   async hrmRead() {
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x01, 0x00]));
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x02, 0x00]));
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x02, 0x01]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x01, 0x00]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x02, 0x00]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x02, 0x01]));
     return new Promise((resolve, reject) => {
       setTimeout(() => reject('Timeout'), 15000);
+      // @ts-ignore
       this.once('heart_rate', resolve);
     });
   }
 
   async hrmStart() {
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x02, 0x00]));
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x01, 0x00]));
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x01, 0x01]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x02, 0x00]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x01, 0x00]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x01, 0x01]));
 
     // Start pinging HRM
     this.hrmTimer = this.hrmTimer || setInterval(() => {
       console.log('Pinging HRM');
-      this.char.hrm_ctrl.writeValue(AB([0x16]));
-    },12000);
+      this.char.hrm_ctrl.writeValue(this.AB([0x16]));
+    }, 12000);
   }
 
   async hrmStop() {
     clearInterval(this.hrmTimer);
     this.hrmTimer = undefined;
-    await this.char.hrm_ctrl.writeValue(AB([0x15, 0x01, 0x00]));
+    await this.char.hrm_ctrl.writeValue(this.AB([0x15, 0x01, 0x00]));
   }
 
   /*
@@ -166,6 +182,7 @@ class MiBand extends EventEmitter {
 
   async getPedometerStats() {
     let data = await this.char.steps.readValue();
+    // @ts-ignore
     data = Buffer.from(data.buffer);
     const result = {} as any;
     // unknown = data.readUInt8(0)
@@ -186,6 +203,7 @@ class MiBand extends EventEmitter {
 
   async getBatteryInfo() {
     let data = await this.char.batt.readValue();
+    // @ts-ignore
     data = Buffer.from(data.buffer);
     if (data.length <= 2) {
       return 'unknown';
@@ -194,17 +212,18 @@ class MiBand extends EventEmitter {
     const result = {} as any;
     result.level = data[1];
     result.charging = !!data[2];
-    result.off_date = parseDate(data.slice(3, 10));
-    result.charge_date = parseDate(data.slice(11, 18));
-    //result.charge_num = data[10]
+    result.off_date = this.parseDate(data.slice(3, 10));
+    result.charge_date = this.parseDate(data.slice(11, 18));
+    // result.charge_num = data[10]
     result.charge_level = data[19];
     return result;
   }
 
   async getTime() {
     let data = await this.char.time.readValue();
+    // @ts-ignore
     data = Buffer.from(data.buffer);
-    return parseDate(data);
+    return this.parseDate(data);
   }
 
   async getSerial() {
@@ -216,56 +235,59 @@ class MiBand extends EventEmitter {
   }
 
   async getHwRevision() {
-    let data = await this.char.info_hwrev.readValue()
-    data = this.textDec.decode(data)
-    if (data.startsWith('V') || data.startsWith('v'))
-      data = data.substring(1)
-    return data
+    let data = await this.char.info_hwrev.readValue();
+    data = this.textDec.decode(data);
+    if (data.startsWith('V') || data.startsWith('v')) {
+      data = data.substring(1);
+    }
+    return data;
   }
 
   async getSwRevision() {
-    let data = await this.char.info_swrev.readValue()
-    data = this.textDec.decode(data)
-    if (data.startsWith('V') || data.startsWith('v'))
-      data = data.substring(1)
-    return data
+    let data = await this.char.info_swrev.readValue();
+    data = this.textDec.decode(data);
+    if (data.startsWith('V') || data.startsWith('v')) {
+      data = data.substring(1);
+    }
+    return data;
   }
 
   async setUserInfo(user) {
-    let data = new Buffer(16)
-    data.writeUInt8   (0x4f, 0) // Set user info command
+    // @ts-ignore
+    const data = new Buffer(16);
+    data.writeUInt8   (0x4f, 0); // Set user info command
 
-    data.writeUInt16LE(user.born.getFullYear(), 3)
-    data.writeUInt8   (user.born.getMonth()+1, 5)
-    data.writeUInt8   (user.born.getDate(), 6)
+    data.writeUInt16LE(user.born.getFullYear(), 3);
+    data.writeUInt8   (user.born.getMonth() + 1, 5);
+    data.writeUInt8   (user.born.getDate(), 6);
     switch (user.sex) {
     case 'male':   data.writeUInt8   (0, 7); break;
     case 'female': data.writeUInt8   (1, 7); break;
     default:       data.writeUInt8   (2, 7); break;
     }
-    data.writeUInt16LE(user.height,  8) // cm
-    data.writeUInt16LE(user.weight, 10) // kg
-    data.writeUInt32LE(user.id,     12) // id
+    data.writeUInt16LE(user.height,  8); // cm
+    data.writeUInt16LE(user.weight, 10); // kg
+    data.writeUInt32LE(user.id,     12); // id
 
-    await this.char.user.writeValue(AB(data))
+    await this.char.user.writeValue(this.AB(data));
   }
 
-  //async reboot() {
+  // async reboot() {
   //  await this.char.fw_ctrl.writeValue(AB([0x05]))
-  //}
+  // }
 
   /*
    * RAW data
    */
 
   async rawStart() {
-    await this.char.raw_ctrl.writeValue(AB([0x01, 0x03, 0x19]))
+    await this.char.raw_ctrl.writeValue(this.AB([0x01, 0x03, 0x19]));
     await this.hrmStart();
-    await this.char.raw_ctrl.writeValue(AB([0x02]))
+    await this.char.raw_ctrl.writeValue(this.AB([0x02]));
   }
 
   async rawStop() {
-    await this.char.raw_ctrl.writeValue(AB([0x03]))
+    await this.char.raw_ctrl.writeValue(this.AB([0x03]));
     await this.hrmStop();
   }
 
@@ -273,50 +295,96 @@ class MiBand extends EventEmitter {
    * Internals
    */
 
-  _handleNotify(event) {
+  async _handleNotify(event) {
+    // @ts-ignore
     const value = Buffer.from(event.target.value.buffer);
 
     if (event.target.uuid === this.char.auth.uuid) {
-      const cmd = value.slice(0,3).toString('hex');
+      const cmd = value.slice(0, 3).toString('hex');
       if (cmd === '100101') {         // Set New Key OK
-        this.authReqRandomKey()
+        this.authReqRandomKey();
       } else if (cmd === '100201') {  // Req Random Number OK
-        let rdn = value.slice(3)
-        let cipher = crypto.createCipheriv('aes-128-ecb', this.key, '').setAutoPadding(false)
-        let encrypted = Buffer.concat([cipher.update(rdn), cipher.final()])
-        this.authSendEncKey(encrypted)
+        // const rdn = value.slice(3);
+        // console.log(crypto);
+        // const cipher = await crypto.subtle.encrypt('aes-128-ecb', this.key, null);
+        // const cipher = crypto.createCipheriv('aes-128-ecb', this.key, '');
+        // const encrypted = Buffer.concat([cipher.update(rdn), cipher.final()]);
+        // this.authSendEncKey(encrypted);
+        this.authReqRandomKey();
       } else if (cmd === '100301') {
-        debug('Authenticated')
-        this.emit('authenticated')
+        console.log('Authenticated');
+        // @ts-ignore
+        this.emit('authenticated');
 
       } else if (cmd === '100104') {  // Set New Key FAIL
-        this.emit('error', 'Key Sending failed')
+        // @ts-ignore
+        this.emit('error', 'Key Sending failed');
       } else if (cmd === '100204') {  // Req Random Number FAIL
-        this.emit('error', 'Key Sending failed')
+        // @ts-ignore
+        this.emit('error', 'Key Sending failed');
       } else if (cmd === '100304') {
-        debug('Encryption Key Auth Fail, sending new key...')
-        this.authSendNewKey(this.key)
+        console.log('Encryption Key Auth Fail, sending new key...');
+        this.authSendNewKey(this.key);
       } else {
-        debug('Unhandled auth rsp:', value);
+        console.log('Unhandled auth rsp:', value);
       }
 
     } else if (event.target.uuid === this.char.hrm_data.uuid) {
-      let rate = value.readUInt16BE(0)
-      this.emit('heart_rate', rate)
+      const rate = value.readUInt16BE(0);
+      // @ts-ignore
+      this.emit('heart_rate', rate);
 
     } else if (event.target.uuid === this.char.event.uuid) {
       const cmd = value.toString('hex');
       if (cmd === '04') {
-        this.emit('button')
+        // @ts-ignore
+        this.emit('button');
       } else {
-        debug('Unhandled event:', value);
+        console.log('Unhandled event:', value);
       }
     } else if (event.target.uuid === this.char.raw_data.uuid) {
       // TODO: parse adxl362 data
       // https://github.com/Freeyourgadget/Gadgetbridge/issues/63#issuecomment-302815121
-      debug('RAW data:', value)
+      console.log('RAW data:', value);
     } else {
-      debug(event.target.uuid, '=>', value)
+      console.log(event.target.uuid, '=>', value);
     }
+  }
+
+  AB(arg) {
+    let args = [arg];
+
+    // Convert all arrays to buffers
+    args = args.map((i) => {
+      if (i instanceof Array) {
+        // @ts-ignore
+        return Buffer.from(i);
+      }
+      return i;
+    });
+
+    // Merge into a single buffer
+    // @ts-ignore
+    const buf = Buffer.concat(args);
+
+    // Convert into ArrayBuffer
+    const ab = new ArrayBuffer(buf.length);
+    const view = new Uint8Array(ab);
+    for (let i = 0; i < buf.length; ++i) {
+      view[i] = buf[i];
+    }
+    return ab;
+  }
+
+  parseDate(buff) {
+    // tslint:disable-next-line:one-variable-per-declaration
+    const year = buff.readUInt16LE(0),
+      mon = buff[2] - 1,
+      day = buff[3],
+      hrs = buff[4],
+      min = buff[5],
+      sec = buff[6],
+      msec = buff[8] * 1000 / 256;
+    return new Date(year, mon, day, hrs, min, sec);
   }
 }

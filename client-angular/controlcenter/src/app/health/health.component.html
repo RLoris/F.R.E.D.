@@ -2,14 +2,24 @@
 <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Health</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p class='text' style="opacity: 1">
-        data
+      <p>
+        {{this.ped?.steps}} pas
+        <br>
+        {{this.ped?.distance}} m
+        <br>
+        {{this.ped?.calories}} kcal
+        <br>
+        {{this.battery?.level}} %
+        <br>
+        {{this.time}}
+        <br>
+        {{this.rate}} BPM
       </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button (click)=this.connect()>CONNECT</button>
+        <button mat-button (click)=this.selectDevice()>Connect</button>
     </mat-card-actions>
   </mat-card>

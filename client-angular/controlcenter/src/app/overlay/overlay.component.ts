@@ -83,11 +83,8 @@ export class OverlayComponent implements OnInit {
           } else {
             result.expressions.forEach( expression => {
               if (expression.probability >= 0.80) {
-                if (expression.expression === 'happy') {
-                  console.log(expression.expression);
-                } else if (expression.expression === 'sad') {
-                  console.log(expression.expression);
-                } else if (expression.expression === 'angry') {
+                if (expression.expression === 'sad' || expression.expression === 'angry') {
+                  // Operate changes on the environnement here
                   console.log(expression.expression);
                 }
               }

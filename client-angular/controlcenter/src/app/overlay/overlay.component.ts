@@ -69,13 +69,14 @@ export class OverlayComponent implements OnInit {
     if (!this.detectId) {
       // detection interval: default 3000
       this.detectId = setInterval( async () => {
-        const results = await faceapi.detectAllFaces(this.video.nativeElement).withFaceLandmarks().withFaceDescriptors();
-        if (!results.length) {
-          console.log('no faces recognized');
+        const result = await faceapi.detectSingleFace(this.video.nativeElement)
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+        if (!result) {
+          console.log('no face recognized');
           return;
         } else {
-          console.log(results.length);
-          console.log(results);
+          console.log(result);
         }
       }, 1000);
     }

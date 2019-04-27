@@ -64,7 +64,7 @@ export class OverlayComponent implements OnInit {
 
   ngOnInit() {
     this.detectedId = null;
-    this.isDetected = true; // Wait
+    this.isDetected = false; // Wait
     this.opencam();
     this.loadModels();
   }

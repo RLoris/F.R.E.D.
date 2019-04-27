@@ -69,7 +69,9 @@ export class OverlayComponent implements OnInit {
                 async () => await this.melissaLabeledDescriptors().then (
                   async () => await this.guillaumeLabeledDescriptors().then (
                     async () => await this.romainLabeledDescriptors().then (
-                      async () => await this.victorLabeledDescriptors()
+                      async () => await this.victorLabeledDescriptors().then(
+                        () => this.modelLoaded = true
+                      )
                     )
                   )
                 )
@@ -95,7 +97,7 @@ export class OverlayComponent implements OnInit {
             console.log('no face recognized');
             return;
           } else {
-            const faceMatcher = new faceapi.FaceMatcher(result);
+            const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
             const bestMatch = faceMatcher.findBestMatch(result.descriptor);
             console.log(bestMatch.label.toString());
           }
@@ -176,7 +178,7 @@ export class OverlayComponent implements OnInit {
   }
 
   private async guillaumeLabeledDescriptors() {
-    const arrayDescriptors = [];
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Guillaume/Premium' + i + '.jpg';
@@ -185,20 +187,15 @@ export class OverlayComponent implements OnInit {
       const result = await faceapi.detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
-      arrayDescriptors.push(result);
+      arrayDescriptors.push(result.descriptor);
     }
 
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Guillaume',
-      arrayDescriptors
-    ));
-
-    console.log(this.labeledDescriptors);
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Guillaume', arrayDescriptors));
   }
 
   private async lorisLabeledDescriptors() {
 
-    const arrayDescriptors: Float32Array[] = new Float32Array();
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Loris/Lolis' + i + '.jpg';
@@ -210,18 +207,12 @@ export class OverlayComponent implements OnInit {
       arrayDescriptors.push(result.descriptor);
     }
 
-    const arrayLebeledDescriptors: LabeledFaceDescriptors = new LabeledFaceDescriptors('Loris', arrayDescriptors);
-    /*
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Loris',
-      arrayDescriptors
-    ));
-    */
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Loris', arrayDescriptors));
   }
 
   private async massimoLabeledDescriptors() {
 
-    const arrayDescriptors = [];
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Massimo/Chuck' + i + '.jpg';
@@ -230,46 +221,32 @@ export class OverlayComponent implements OnInit {
       const result = await faceapi.detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
-      arrayDescriptors.push(result);
+      arrayDescriptors.push(result.descriptor);
     }
 
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Massimo',
-      arrayDescriptors
-    ));
-
-
-    console.log(this.labeledDescriptors);
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Massimo', arrayDescriptors));
   }
 
   private async melissaLabeledDescriptors() {
 
-    const arrayDescriptors = [];
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Melissa/Melissa' + i + '.jpg';
       img.src = path;
-      console.log(path);
 
       const result = await faceapi.detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
-      arrayDescriptors.push(result);
+      arrayDescriptors.push(result.descriptor);
     }
-    console.log(arrayDescriptors);
 
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Melissa',
-      arrayDescriptors
-    ));
-
-
-    console.log(this.labeledDescriptors);
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Melissa', arrayDescriptors));
   }
 
   private async romainLabeledDescriptors() {
 
-    const arrayDescriptors = [];
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Romain/Cercle' + i + '.jpg';
@@ -278,21 +255,15 @@ export class OverlayComponent implements OnInit {
       const result = await faceapi.detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
-      arrayDescriptors.push(result);
+      arrayDescriptors.push(result.descriptor);
     }
 
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Romain',
-      arrayDescriptors
-    ));
-
-
-    console.log(this.labeledDescriptors);
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Romain', arrayDescriptors));
   }
 
   private async victorLabeledDescriptors() {
 
-    const arrayDescriptors = [];
+    const arrayDescriptors: Float32Array[] = [];
     for ( let i = 1; i <= 10; i++) {
       const img = new Image();
       const path = '../../assets/Victor/Etchebest' + i + '.jpg';
@@ -301,16 +272,10 @@ export class OverlayComponent implements OnInit {
       const result = await faceapi.detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
-      arrayDescriptors.push(result);
+      arrayDescriptors.push(result.descriptor);
     }
 
-    this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-      'Victor',
-      arrayDescriptors
-    ));
-
-
-    console.log(this.labeledDescriptors);
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Victor', arrayDescriptors));
   }
 
   /* handles all type of errors from usermedia API */

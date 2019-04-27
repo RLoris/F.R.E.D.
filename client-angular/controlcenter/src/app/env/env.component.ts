@@ -15,7 +15,6 @@ export class EnvComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    var inc = 1000;
     this.meteos = SCENARIO;
     this.meteo = this.meteos[Math.floor(Math.random() * this.meteos.length)];
     setInterval(() => {
@@ -34,8 +33,8 @@ export class EnvComponent implements OnInit {
       let h = date.getHours().toString();
       let m = date.getMinutes().toString();
       let s = date.getSeconds().toString();
-      m = (m < '10') ? '0' + m : m;
-      s = (s < '10') ? '0' + s : s;
+      m = (parseInt(m) < 10) ? '0' + m : m;
+      s = (parseInt(s) < 10) ? '0' + s : s;
       const time = h + ':' + m + ':' + s;
       document.getElementById('clockDisplay').innerText = time;
       document.getElementById('clockDisplay').textContent = time;

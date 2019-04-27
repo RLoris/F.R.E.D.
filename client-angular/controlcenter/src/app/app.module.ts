@@ -13,6 +13,7 @@ import { HealthComponent } from './health/health.component';
 import { MatButtonModule } from '@angular/material/button';
 import { EarthComponent } from './earth/earth.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TransitComponent } from './transit/transit.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     OverlayComponent,
     EnvComponent,
     HealthComponent,
-    EarthComponent
+    EarthComponent,
+    TransitComponent
   ],
   imports: [
     BrowserModule,

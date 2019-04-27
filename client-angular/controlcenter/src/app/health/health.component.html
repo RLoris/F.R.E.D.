@@ -1,7 +1,7 @@
 
 <mat-card class="example-card" (click)=this.selectDevice()>
     <mat-card-header>
-      <mat-card-title>SANTE</mat-card-title>
+      <mat-card-title>Santé</mat-card-title>
       <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -30,12 +30,12 @@
                          C420.868,184.24,409.578,234.327,403.129,258.465z" />
           </g>
         </svg>
-        <span *ngIf="this.display">{{this.ped?.steps}}</span><span *ngIf="!this.display">...</span> pas
+        <span *ngIf="this.display">{{this.ped?.steps}}</span><span *ngIf="!this.display">...</span> Pas
         <br>
         <svg class="icons" id="icon-navigation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M20 20a.94.94 0 0 1-.55-.17L12 14.9l-7.45 4.93a1 1 0 0 1-1.44-1.28l8-16a1 1 0 0 1 1.78 0l8 16a1 1 0 0 1-.23 1.2A1 1 0 0 1 20 20zm-8-7.3a1 1 0 0 1 .55.17l4.88 3.23L12 5.24 6.57 16.1l4.88-3.23a1 1 0 0 1 .55-.17z" />
       </svg>
-        <span *ngIf="this.display">{{this.ped?.distance}}</span><span *ngIf="!this.display">...</span> m
+        <span *ngIf="this.display">{{this.ped?.distance}}</span><span *ngIf="!this.display">...</span> meters
         <br>
         <svg class="icons" icons="icons" version="1.1" id="icon-cake" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
           y="0px" viewBox="0 0 469.333 469.333" style="enable-background:new 0 0 469.333 469.333;" xml:space="preserve">
@@ -70,7 +70,7 @@
                               c0-51,38.25-89.25,89.25-89.25c38.25,0,76.5,25.5,91.8,61.2h48.45c12.75-35.7,51-61.2,89.25-61.2c51,0,89.25,38.25,89.25,89.25
                               C459,235.875,379.95,307.274,257.55,419.475z" />
         </svg>
-        <span *ngIf="this.display">{{this.rate}}</span><span *ngIf="!this.display">...</span> bpm
+        <span *ngIf="this.display">{{this.rate}}</span><span *ngIf="!this.display">...</span> BPM
       </p>
     </mat-card-content>
   </mat-card>

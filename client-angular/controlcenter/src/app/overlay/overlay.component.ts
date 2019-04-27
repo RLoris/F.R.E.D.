@@ -43,6 +43,7 @@ export class OverlayComponent implements OnInit {
 
   private streamId;
   private detectId;
+  private modelLoaded;
 
   buttonLock = false;
 
@@ -57,7 +58,9 @@ export class OverlayComponent implements OnInit {
     await faceapi.loadSsdMobilenetv1Model('assets/models').then(
       async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
         async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
-          async () => await faceapi.loadFaceExpressionModel('assets/models')
+          async () => await faceapi.loadFaceExpressionModel('assets/models').then(
+            async () => this.modelLoaded = true
+          )
         )
       )
     );
@@ -69,14 +72,18 @@ export class OverlayComponent implements OnInit {
     if (!this.detectId) {
       // detection interval: default 3000
       this.detectId = setInterval( async () => {
-        const result = await faceapi.detectSingleFace(this.video.nativeElement)
-        .withFaceLandmarks()
-        .withFaceDescriptor();
-        if (!result) {
-          console.log('no face recognized');
-          return;
-        } else {
-          console.log(result);
+        if(this.modelLoaded)
+        {
+          const result = await faceapi.detectSingleFace(this.video.nativeElement)
+          .withFaceExpressions()
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+          if (!result) {
+            console.log('no face recognized');
+            return;
+          } else {
+            console.log(result);
+          }
         }
       }, 1000);
     }

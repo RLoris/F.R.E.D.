@@ -54,7 +54,7 @@ export class OverlayComponent implements OnInit {
   background = null;
 
   constructor(public toast: MatSnackBar, private sanitizer: DomSanitizer) {
-    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
   }
 
   ngOnInit() {
@@ -96,7 +96,7 @@ export class OverlayComponent implements OnInit {
           if (!this.detectedId) {
             this.detectedId = setTimeout( () => {
               this.isDetected = false;
-              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
               console.log('changing to dust');
               this.video.nativeElement.loop = true;
             }, 10000);
@@ -106,7 +106,11 @@ export class OverlayComponent implements OnInit {
           clearTimeout(this.detectedId);
           if (this.isDetected === false) {
             console.log('changing to preview');
-            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/preview.mp4');
+            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
+            setTimeout( () => {
+              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain.mp4');
+              this.video.nativeElement.loop = true;
+            }, 4000);
             this.video.nativeElement.loop = false;
           }
           this.detectedId = null;

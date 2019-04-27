@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" style="background-color: black">
   <video id="stream" [src]=this.background class="overlay center" autoplay>
   </video>
 </div>
@@ -25,7 +25,7 @@
     </mat-card-actions>
   </mat-card>
 
-<mat-grid-list [style.visibility]=isVisible() cols="5" rowHeight="33vh">
+<mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
     <mat-grid-tile>
         <app-env></app-env>
     </mat-grid-tile>

@@ -42,7 +42,8 @@ import { OfficeComponent } from './office/office.component';
     MatProgressBarModule,
     MatSnackBarModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

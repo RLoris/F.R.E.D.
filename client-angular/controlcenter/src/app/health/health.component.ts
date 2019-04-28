@@ -107,6 +107,7 @@ export class HealthComponent implements OnInit {
     miband.on('heart_rate', (rate) => {
       console.log('Heart Rate:', rate);
       this.rate = rate;
+      this.emitter.emit({rate});
     });
     await miband.hrmStart();
     // await this.delay(30000);

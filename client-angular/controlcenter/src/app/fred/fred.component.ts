@@ -45,10 +45,8 @@ export class FredComponent implements OnInit {
             console.log('starting');
             setTimeout(() => this.start(), 2000);
           }
-        } else if (data.welcome) {
-          this.talk(data.welcome);
-        } else if (data.goodbye) {
-          this.talk(data.goodbye);
+        } else if (data.say) {
+          this.talk(data.say);
         }
         console.log(data);
       }

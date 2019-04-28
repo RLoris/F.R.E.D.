@@ -210,7 +210,7 @@ export class OverlayComponent implements OnInit {
                     return;
                   }
                 }
-                this.actionSubject.next( {welcome: 'Bonjour ' + bestMatch.label.toString() + ', content de vous revoir !'});
+                this.actionSubject.next( {say: 'Bonjour ' + bestMatch.label.toString() + ', content de vous revoir !'});
                 console.log('nom : ' + bestMatch.label.toString());
                 clearTimeout(this.detectedId);
                 this.video.nativeElement.loop = false;
@@ -224,6 +224,9 @@ export class OverlayComponent implements OnInit {
               result.expressions.forEach( expression => {
                 if (expression.probability >= 0.99) {
                   if (expression.expression === 'sad') {
+                    this.actionSubject.next({
+                      say : 'Vous semblez triste, je lance une playlist pour vous remonter le moral'
+                    });
                     // Operate changes on the environnement
                     console.log(expression.expression);
 
@@ -242,6 +245,9 @@ export class OverlayComponent implements OnInit {
                     this.lastBackground = bg;
                     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/' + bg + '.mp4');
                   } else if (expression.expression === 'angry') {
+                    this.actionSubject.next({
+                      say : 'Vous semblez faché, je lance une playlist pour vous détendre'
+                    });
                     // Play video
                     this.relaxWidget = true;
 
@@ -472,12 +478,14 @@ export class OverlayComponent implements OnInit {
       this.actionSubject.next($event);
     } else if ($event.rate) {
       // heart rate
-      const testLimitRate = 110;
+      const testLimitRate = 100;
       console.log('bpm : ' + $event.rate);
       if ($event.rate > testLimitRate) {
+        this.actionSubject.next({
+          say : 'Vos battements de coeur semblent élevés, il est peut être temps de faire une pause'
+        });
         // Play video
         this.relaxWidget = true;
-
         // Cut music
         this.chillMusicVideoWidget = false;
       }
@@ -563,9 +571,9 @@ export class OverlayComponent implements OnInit {
           this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/storm.mp4');
           setTimeout( () => {
             this.isDust = false;
-            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
+            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
             this.video.nativeElement.loop = true;
-          }, 15000);
+          }, 16000);
         }, 3000);
         break;
       }

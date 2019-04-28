@@ -2,7 +2,7 @@ app-env, app-health, app-chill-music-video, app-earth {
   position: relative;
   height: 100%;
   width: 100%;
-  opacity: 0.2;
+  opacity: 1;
   -webkit-animation-duration: 10s;
   animation-duration: 10s;
   -webkit-animation-fill-mode: both;

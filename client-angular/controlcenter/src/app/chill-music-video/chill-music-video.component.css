@@ -12,7 +12,22 @@
 }
 
 mat-card {
-  background: rgba(255,255,255, 0.6);
+	background: rgba(255, 255, 255, 0.2);
+}
+
+mat-card-title{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
+}
+
+mat-card-subtitle{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
+  font-style: italic;
+}
+mat-card-content{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
 }
 
 .icons {

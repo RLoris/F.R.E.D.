@@ -209,10 +209,31 @@ export class OverlayComponent implements OnInit {
                 }, 5000);
               }
               result.expressions.forEach( expression => {
-                if (expression.probability >= 0.80) {
-                  if (expression.expression === 'sad' || expression.expression === 'angry') {
-                    // Operate changes on the environnement here
+                if (expression.probability >= 0.99) {
+                  if (expression.expression === 'sad') {
+                    // Operate changes on the environnement
                     console.log(expression.expression);
+
+                    // Play music
+                    this.chillMusicVideoWidget = true;
+
+                    // Cut vidéo
+                    this.relaxWidget = false;
+
+                    // Change background
+                    let bg;
+                    do {
+                      bg = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)];
+                      console.log(bg);
+                    } while (bg === this.lastBackground);
+                    this.lastBackground = bg;
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/' + bg + '.mp4');
+                  } else if (expression.expression === 'angry') {
+                    // Play video
+                    this.relaxWidget = true;
+
+                    // Cut music
+                    this.chillMusicVideoWidget = false;
                   }
                 }
               } );

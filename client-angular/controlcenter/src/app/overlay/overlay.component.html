@@ -50,16 +50,16 @@
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
-      
+
     </mat-grid-tile>
     <mat-grid-tile>
-      
+
     </mat-grid-tile>
     <mat-grid-tile>
       <app-relax-and-breathe *ngIf=this.relaxWidget></app-relax-and-breathe>
     </mat-grid-tile>
     <mat-grid-tile>
-      
+
     </mat-grid-tile>
     <mat-grid-tile>
       <app-health [style.visibility]=displayWidget(this.healthWidget) (emitter)=this.dispatcher($event)></app-health>
@@ -69,14 +69,14 @@
       <app-fred (emitter)=this.executeAction($event) [receiver]=this.actionObservable></app-fred>
     </mat-grid-tile>
     <mat-grid-tile>
-      
+
     </mat-grid-tile>
     <mat-grid-tile>
-      <app-transit [style.visibility]=displayWidget(this.transitWidget) style="padding-bottom:35%"></app-transit>
+      <app-transit [style.visibility]=displayWidget(this.transitWidget) style="padding-bottom:25%"></app-transit>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
-      
+
     </mat-grid-tile>
   </mat-grid-list>
 

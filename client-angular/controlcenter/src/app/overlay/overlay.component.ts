@@ -189,7 +189,7 @@ export class OverlayComponent implements OnInit {
                     break;
                   }
                   case 'Xavier' : {
-                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/guillaume.mp4');
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/xavier.mp4');
                     break;
                   }
                   default: {
@@ -296,7 +296,7 @@ export class OverlayComponent implements OnInit {
 
   private async guillaumeLabeledDescriptors() {
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Guillaume/Premium' + i + '.jpg';
       img.src = path;
@@ -313,7 +313,7 @@ export class OverlayComponent implements OnInit {
   private async lorisLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Loris/Lolis' + i + '.jpg';
       img.src = path;
@@ -330,7 +330,7 @@ export class OverlayComponent implements OnInit {
   private async massimoLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Massimo/Chuck' + i + '.jpg';
       img.src = path;
@@ -347,7 +347,7 @@ export class OverlayComponent implements OnInit {
   private async melissaLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Melissa/Melissa' + i + '.jpg';
       img.src = path;
@@ -364,7 +364,7 @@ export class OverlayComponent implements OnInit {
   private async romainLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Romain/Cercle' + i + '.jpg';
       img.src = path;
@@ -381,7 +381,7 @@ export class OverlayComponent implements OnInit {
   private async victorLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 10; i++) {
+    for ( let i = 1; i <= 15; i++) {
       const img = new Image();
       const path = '../../assets/Victor/Etchebest' + i + '.jpg';
       img.src = path;
@@ -398,7 +398,7 @@ export class OverlayComponent implements OnInit {
   private async xavierLabeledDescriptors() {
 
     const arrayDescriptors: Float32Array[] = [];
-    for ( let i = 1; i <= 7; i++) {
+    for ( let i = 1; i <= 12; i++) {
       const img = new Image();
       const path = '../../assets/Xavier/Xavier' + i + '.png';
       img.src = path;

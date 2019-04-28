@@ -89,7 +89,9 @@ export class OverlayComponent implements OnInit {
                   async () => await this.guillaumeLabeledDescriptors().then (
                     async () => await this.romainLabeledDescriptors().then (
                       async () => await this.victorLabeledDescriptors().then(
+                        async () => await this.xavierLabeledDescriptors().then (
                         () => this.modelLoaded = true
+                        )
                       )
                     )
                   )
@@ -154,6 +156,10 @@ export class OverlayComponent implements OnInit {
                   }
                   case 'Victor' : {
                     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/victor.mp4');
+                    break;
+                  }
+                  case 'Xavier' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/guillaume.mp4');
                     break;
                   }
                   default: {
@@ -357,6 +363,23 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Victor', arrayDescriptors));
+  }
+
+  private async xavierLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 7; i++) {
+      const img = new Image();
+      const path = '../../assets/Xavier/Xavier' + i + '.png';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Xavier', arrayDescriptors));
   }
 
   /* handles all type of errors from usermedia API */

@@ -46,7 +46,7 @@ export const Responses = {
     // tslint:disable-next-line:max-line-length
     'Attention, suite à une fuite de produit radioactif extrêmement dangereux, nous vous prions de changer de planète et bonne chance pour la suivante.',
     // tslint:disable-next-line:max-line-length
-    'Attention, suite à l\'arriver des vegans, nous avons dû procéder à un ratissage de la population pour en reprendre uniquement les meilleurs.',
+    'Attention, suite à l\'arriver des vegane, nous avons dû procéder à un ratissage de la population pour en reprendre uniquement les meilleurs.',
     // tslint:disable-next-line:max-line-length
     'Attention, une souris s\'est infiltrée dans les conduits d\'aération. Merci de dégager la sortie car celle-ci va être expulsée violement.',
     'Attention, niveau d\'oxygène critique. Si vous tenez à la vie il vous est grandement conseillé d\'évacuer la zone.',

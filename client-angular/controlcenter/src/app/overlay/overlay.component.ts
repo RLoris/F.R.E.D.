@@ -50,8 +50,10 @@ export class OverlayComponent implements OnInit {
   detectedId = null;
   background = null;
 
+  isFirstTry = true;
   isOccupied = false;
   isDust = false;
+  cptTry = 3;
   labeledDescriptors;
 
   private modelLoaded;
@@ -89,7 +91,9 @@ export class OverlayComponent implements OnInit {
                   async () => await this.guillaumeLabeledDescriptors().then (
                     async () => await this.romainLabeledDescriptors().then (
                       async () => await this.victorLabeledDescriptors().then(
+                        async () => await this.xavierLabeledDescriptors().then (
                         () => this.modelLoaded = true
+                        )
                       )
                     )
                   )
@@ -118,14 +122,21 @@ export class OverlayComponent implements OnInit {
           console.log(result);
 
           if (!result) {
-            if (!this.isDust) {
-              this.detectedId = setTimeout( () => {
-                this.isOccupied = false;
-                this.isDust = true;
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
-                console.log('changing to dust');
-                this.video.nativeElement.loop = true;
-              }, 5000);
+            if (this.isFirstTry) {
+              this.isFirstTry = false;
+            }
+            this.cptTry --;
+            if (this.cptTry === 0) {
+              if (!this.isDust) {
+                this.cptTry = 3;
+                this.detectedId = setTimeout( () => {
+                  this.isOccupied = false;
+                  this.isDust = true;
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                  console.log('changing to dust');
+                  this.video.nativeElement.loop = true;
+                }, 5000);
+              }
             }
           } else {
               if (this.isOccupied === false) {
@@ -154,6 +165,10 @@ export class OverlayComponent implements OnInit {
                   }
                   case 'Victor' : {
                     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/victor.mp4');
+                    break;
+                  }
+                  case 'Xavier' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/guillaume.mp4');
                     break;
                   }
                   default: {
@@ -357,6 +372,23 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Victor', arrayDescriptors));
+  }
+
+  private async xavierLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 7; i++) {
+      const img = new Image();
+      const path = '../../assets/Xavier/Xavier' + i + '.png';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Xavier', arrayDescriptors));
   }
 
   /* handles all type of errors from usermedia API */

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import * as faceapi from 'face-api.js';
 import { MatSnackBar } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LabeledFaceDescriptors } from 'face-api.js';
 import { Subject } from 'rxjs';
 
 faceapi.env.monkeyPatch({
@@ -42,15 +43,10 @@ export class OverlayComponent implements OnInit {
   // loading models and stream not available
   displayStream = 'none';
   isLoading = true;
-
   private streamId;
   private detectId;
-  private modelLoaded;
-
-  buttonLock = false;
 
   // person in front of camera
-  isDetected = false;
   detectedId = null;
   background = null;
   backgrounds = [
@@ -67,22 +63,30 @@ export class OverlayComponent implements OnInit {
   relaxWidget = false;
 
   // dispatching bot
+  isFirstTry = true;
+  isOccupied = false;
+  isDust = false;
+  cptTry = 3;
+  labeledDescriptors;
+
+  private modelLoaded;
+  // dispatching
   actionSubject = new Subject<any>();
   actionObservable = this.actionSubject.asObservable();
 
   constructor(public toast: MatSnackBar, private sanitizer: DomSanitizer) {
     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
+    this.labeledDescriptors = [];
+    this.loadModels();
   }
 
   ngOnInit() {
     this.detectedId = null;
-    this.isDetected = false; // Wait
     this.opencam();
-    this.loadModels();
   }
 
   isVisible() {
-    if (this.isDetected) {
+    if (this.isOccupied) {
       return 'visible';
     } else {
       return 'hidden';
@@ -102,7 +106,21 @@ export class OverlayComponent implements OnInit {
       async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
         async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
           async () => await faceapi.loadFaceExpressionModel('assets/models').then(
-            async () => this.modelLoaded = true
+            async () => await this.lorisLabeledDescriptors().then (
+              async () => await this.massimoLabeledDescriptors().then (
+                async () => await this.melissaLabeledDescriptors().then (
+                  async () => await this.guillaumeLabeledDescriptors().then (
+                    async () => await this.romainLabeledDescriptors().then (
+                      async () => await this.victorLabeledDescriptors().then(
+                        async () => await this.xavierLabeledDescriptors().then (
+                        () => this.modelLoaded = true
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
           )
         )
       )
@@ -121,45 +139,88 @@ export class OverlayComponent implements OnInit {
           .withFaceExpressions()
           .withFaceLandmarks()
           .withFaceDescriptor();
+
+          console.log(result);
+
           if (!result) {
-            if (!this.detectedId) {
-              this.detectedId = setTimeout( () => {
-                this.isDetected = false;
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
-                console.log('changing to dust');
-                this.video.nativeElement.loop = true;
-              }, 10000);
+            if (this.isFirstTry) {
+              this.isFirstTry = false;
+            }
+            this.cptTry --;
+            if (this.cptTry === 0) {
+              if (!this.isDust) {
+                this.cptTry = 3;
+                this.detectedId = setTimeout( () => {
+                  this.isOccupied = false;
+                  this.isDust = true;
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                  console.log('changing to dust');
+                  this.video.nativeElement.loop = true;
+                }, 5000);
+              }
             }
           } else {
-            console.log('someone detected');
-            clearTimeout(this.detectedId);
-            // detecting emotions
-            result.expressions.forEach( expression => {
-              if (expression.probability >= 0.80) {
-                if (expression.expression === 'sad' || expression.expression === 'angry') {
-                  // Operate changes on the environnement here
-                  console.log(expression.expression);
+              if (this.isOccupied === false) {
+                const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
+                const bestMatch = faceMatcher.findBestMatch(result.descriptor);
+                switch (bestMatch.label) {
+                  case 'Melissa' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/melissa.mp4');
+                    break;
+                  }
+                  case 'Guillaume' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/guillaume.mp4');
+                    break;
+                  }
+                  case 'Loris' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/loris.mp4');
+                    break;
+                  }
+                  case 'Romain' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/romain.mp4');
+                    break;
+                  }
+                  case 'Massimo' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/massimo.mp4');
+                    break;
+                  }
+                  case 'Victor' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/victor.mp4');
+                    break;
+                  }
+                  case 'Xavier' : {
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/guillaume.mp4');
+                    break;
+                  }
+                  default: {
+                    this.isOccupied = false;
+                    this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                    return;
+                  }
                 }
+                console.log('nom : ' + bestMatch.label.toString());
+                clearTimeout(this.detectedId);
+                this.isOccupied = true;
+                this.isDust = false;
+                this.video.nativeElement.loop = false;
+                setTimeout( () => {
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
+                  this.video.nativeElement.loop = true;
+                }, 5000);
               }
-            } );
-            if (this.isDetected === false) {
-              console.log('changing to preview');
-              this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/melissa.mp4');
-              setTimeout( () => {
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
-                this.video.nativeElement.loop = true;
-              }, 4000);
-              this.video.nativeElement.loop = false;
-            }
-            this.detectedId = null;
-            this.isDetected = true;
+              result.expressions.forEach( expression => {
+                if (expression.probability >= 0.80) {
+                  if (expression.expression === 'sad' || expression.expression === 'angry') {
+                    // Operate changes on the environnement here
+                    console.log(expression.expression);
+                  }
+                }
+              } );
           }
-        } else {
-          console.log('waiting for models to load.');
         }
-      }, 5000);
+      }, 3000);
     }
-}
+  }
 
   private opencam() {
     /* initialize lib */
@@ -226,12 +287,129 @@ export class OverlayComponent implements OnInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < deviceInfos.length; i++) {
         if (deviceInfos[i].kind === 'videoinput') {
-          console.log(deviceInfos[i].label + '' + i);
           videouputs.push({ id: deviceInfos[i].deviceId, label: deviceInfos[i].label});
         }
     }
 
     return videouputs;
+  }
+
+  private async guillaumeLabeledDescriptors() {
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Guillaume/Premium' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Guillaume', arrayDescriptors));
+  }
+
+  private async lorisLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Loris/Lolis' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Loris', arrayDescriptors));
+  }
+
+  private async massimoLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Massimo/Chuck' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Massimo', arrayDescriptors));
+  }
+
+  private async melissaLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Melissa/Melissa' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Melissa', arrayDescriptors));
+  }
+
+  private async romainLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Romain/Cercle' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Romain', arrayDescriptors));
+  }
+
+  private async victorLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 10; i++) {
+      const img = new Image();
+      const path = '../../assets/Victor/Etchebest' + i + '.jpg';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Victor', arrayDescriptors));
+  }
+
+  private async xavierLabeledDescriptors() {
+
+    const arrayDescriptors: Float32Array[] = [];
+    for ( let i = 1; i <= 7; i++) {
+      const img = new Image();
+      const path = '../../assets/Xavier/Xavier' + i + '.png';
+      img.src = path;
+
+      const result = await faceapi.detectSingleFace(img)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      arrayDescriptors.push(result.descriptor);
+    }
+
+    this.labeledDescriptors.push(new LabeledFaceDescriptors('Xavier', arrayDescriptors));
   }
 
   /* handles all type of errors from usermedia API */

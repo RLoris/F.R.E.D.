@@ -470,7 +470,15 @@ export class OverlayComponent implements OnInit {
       this.actionSubject.next($event);
     } else if ($event.rate) {
       // heart rate
-      // TODO :
+      const testLimitRate = 110;
+      console.log('bpm : ' + $event.rate);
+      if ($event.rate > testLimitRate) {
+        // Play video
+        this.relaxWidget = true;
+
+        // Cut music
+        this.chillMusicVideoWidget = false;
+      }
     }
   }
 

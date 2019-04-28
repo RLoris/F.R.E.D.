@@ -2,12 +2,17 @@ app-env, app-health, app-chill-music-video, app-earth, app-office {
   position: relative;
   height: 100%;
   width: 100%;
+  opacity: 1;
   -webkit-animation-duration: 10s;
   animation-duration: 10s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
+}
+
+app-office{
+  margin-top: 0;
 }
 
 mat-grid-list {

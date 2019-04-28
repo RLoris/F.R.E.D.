@@ -50,8 +50,10 @@ export class OverlayComponent implements OnInit {
   detectedId = null;
   background = null;
 
+  isFirstTry = true;
   isOccupied = false;
   isDust = false;
+  cptTry = 3;
   labeledDescriptors;
 
   private modelLoaded;
@@ -120,14 +122,21 @@ export class OverlayComponent implements OnInit {
           console.log(result);
 
           if (!result) {
-            if (!this.isDust) {
-              this.detectedId = setTimeout( () => {
-                this.isOccupied = false;
-                this.isDust = true;
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
-                console.log('changing to dust');
-                this.video.nativeElement.loop = true;
-              }, 5000);
+            if (this.isFirstTry) {
+              this.isFirstTry = false;
+            }
+            this.cptTry --;
+            if (this.cptTry === 0) {
+              if (!this.isDust) {
+                this.cptTry = 3;
+                this.detectedId = setTimeout( () => {
+                  this.isOccupied = false;
+                  this.isDust = true;
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                  console.log('changing to dust');
+                  this.video.nativeElement.loop = true;
+                }, 5000);
+              }
             }
           } else {
               if (this.isOccupied === false) {

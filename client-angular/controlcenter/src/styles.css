@@ -7,8 +7,12 @@ body {
   background-color: black;
 }
 
-mat-card:not{
+.mat-card:not.mat-elevation-z0{
   box-shadow : none !important;
+}
+
+.mat-card {
+  box-shadow: none !important;
 }
 
 

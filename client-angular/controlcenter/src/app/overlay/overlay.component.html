@@ -25,7 +25,7 @@
     </mat-card>
 
 
-  <mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
+  <mat-grid-list style="margin-top: 0" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
     <mat-grid-tile>
       <app-env></app-env>
     </mat-grid-tile>
@@ -38,26 +38,36 @@
     <mat-grid-tile>
       <app-earth></app-earth>
     </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
-        <app-health [style.visibility]=displayWidget(this.healthWidget) (emitter)=this.dispatcher($event)></app-health>
+      
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      
+    </mat-grid-tile>
     <mat-grid-tile>
       <app-relax-and-breathe *ngIf=this.relaxWidget></app-relax-and-breathe>
     </mat-grid-tile>
     <mat-grid-tile>
-      <app-transit [style.visibility]=displayWidget(this.transitWidget) ></app-transit>
+      
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <app-health [style.visibility]=displayWidget(this.healthWidget) (emitter)=this.dispatcher($event)></app-health>
+    </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
       <app-fred (emitter)=this.executeAction($event) [receiver]=this.actionObservable></app-fred>
     </mat-grid-tile>
+    <mat-grid-tile>
+      
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-transit [style.visibility]=displayWidget(this.transitWidget) style="padding-bottom:35%"></app-transit>
+    </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      
+    </mat-grid-tile>
   </mat-grid-list>
 
 

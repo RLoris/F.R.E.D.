@@ -52,7 +52,8 @@ export class OverlayComponent implements OnInit {
   backgrounds = [
     'dust',
     'rain2',
-    'earth'
+    'earth',
+    'fire'
   ];
   lastBackground: string;
 
@@ -209,12 +210,13 @@ export class OverlayComponent implements OnInit {
                     return;
                   }
                 }
+                this.actionSubject.next( {welcome: 'Bonjour ' + bestMatch.label.toString() + ', content de vous revoir !'});
                 console.log('nom : ' + bestMatch.label.toString());
                 clearTimeout(this.detectedId);
                 this.video.nativeElement.loop = false;
+                this.isOccupied = true;
                 setTimeout( () => {
                   this.isDust = false;
-                  this.isOccupied = true;
                   this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
                   this.video.nativeElement.loop = true;
                 }, 5000);
@@ -461,12 +463,20 @@ export class OverlayComponent implements OnInit {
     switch ($action.intent) {
       case 'ChangeBackground': {
         let bg;
-        do {
-          bg = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)];
-          console.log(bg);
-        } while (bg === this.lastBackground);
+        if ($action.entities.length > 0 && $action.entities[0].type === 'backgroundPreference') {
+          // cosy mode
+          if ($action.entities[0].entity === 'cosy') {
+            bg = 'fire';
+          }
+        } else {
+          do {
+            bg = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)];
+            console.log(bg);
+          } while (bg === this.lastBackground);
+        }
         this.lastBackground = bg;
         this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/' + bg + '.mp4');
+        this.video.nativeElement.loop = true;
         break;
       }
       case 'DoRelaxationExercices': {
@@ -517,6 +527,17 @@ export class OverlayComponent implements OnInit {
             this.relaxWidget = false;
           }
         }
+        break;
+      }
+      case 'Warning': {
+        setTimeout(() => {
+          this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/storm.mp4');
+          setTimeout( () => {
+            this.isDust = false;
+            this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
+            this.video.nativeElement.loop = true;
+          }, 15000);
+        }, 3000);
         break;
       }
       case 'None': {

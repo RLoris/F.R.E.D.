@@ -36,15 +36,21 @@ export class FredComponent implements OnInit {
   ngOnInit() {
     this.receiver.subscribe(
       (data) => {
-        console.log(data);
-        if (this.recording) {
-          console.log('stopping');
-          this.stop();
-        } else {
-          this.talk(Responses.Help);
-          console.log('starting');
-          setTimeout(() => this.start(), 2000);
+        if (data === 'miband') {
+          if (this.recording) {
+            console.log('stopping');
+            this.stop();
+          } else {
+            this.talk(Responses.Help[0]);
+            console.log('starting');
+            setTimeout(() => this.start(), 2000);
+          }
+        } else if (data.welcome) {
+          this.talk(data.welcome);
+        } else if (data.goodbye) {
+          this.talk(data.goodbye);
         }
+        console.log(data);
       }
     );
     this.recording = false;

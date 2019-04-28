@@ -34,7 +34,7 @@ export const Responses = {
     'Le saviez-vous, un magicarpe ne peut pas apprendre d\'autres capacités que Trempette.',
     'Le saviez-vous, il parait que l\'homme descend du singe alors que parfois on se demande réellement si c\'est pas le contraire.',
     // tslint:disable-next-line:max-line-length
-    'Le saviez-vous, au Moyen-Age pour chasser les sorciers ils leurs attachaient un boulet à la cheville et les jettaient dans la mer, si le sorcier remontait c\'est qu\'il était bien un sorcier/sorcière.',
+    'Le saviez-vous, au Moyen-Âge pour chasser les sorciers ils leurs attachaient un boulet à la cheville et les jettaient dans la mer, si le sorcier remontait c\'est qu\'il était bien un sorcier.',
     'Le saviez-vous, un consultant est un stagiaire éternel, non?'],
   Warning: [
     'Attention, une tempête de sable est prévue sur le Mont Olympe dans 1h30 (Sortez couvert).',

@@ -1,5 +1,6 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import Miband from './miband';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 const bluetooth = navigator.bluetooth;

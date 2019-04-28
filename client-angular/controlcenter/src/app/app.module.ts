@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { OverlayComponent } from './overlay/overlay.component';
 import { EnvComponent } from './env/env.component';
 
-import { MatCardModule, MatProgressBarModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatProgressBarModule, MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 import { HealthComponent } from './health/health.component';
@@ -17,6 +17,7 @@ import { RelaxAndBreatheComponent } from './relax-and-breathe/relax-and-breathe.
 import { EarthComponent } from './earth/earth.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TransitComponent } from './transit/transit.component';
+import { OfficeComponent } from './office/office.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TransitComponent } from './transit/transit.component';
     RelaxAndBreatheComponent,
     EarthComponent,
     FredComponent,
-    TransitComponent
+    TransitComponent,
+    OfficeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ import { TransitComponent } from './transit/transit.component';
     MatButtonModule,
     MatProgressBarModule,
     MatSnackBarModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

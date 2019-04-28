@@ -53,8 +53,20 @@ export class OverlayComponent implements OnInit {
   isDetected = false;
   detectedId = null;
   background = null;
+  backgrounds = [
+    'dust',
+    'rain2',
+    'earth'
+  ];
+  lastBackground: string;
 
-  // dispatching
+  // displayed widgets
+  transitWidget = true;
+  chillMusicVideoWidget = false;
+  healthWidget = true;
+  relaxWidget = false;
+
+  // dispatching bot
   actionSubject = new Subject<any>();
   actionObservable = this.actionSubject.asObservable();
 
@@ -71,6 +83,14 @@ export class OverlayComponent implements OnInit {
 
   isVisible() {
     if (this.isDetected) {
+      return 'visible';
+    } else {
+      return 'hidden';
+    }
+  }
+
+  displayWidget(status) {
+    if (status && this.isVisible() === 'visible') {
       return 'visible';
     } else {
       return 'hidden';
@@ -221,6 +241,83 @@ export class OverlayComponent implements OnInit {
 
   dispatcher($event) {
     this.actionSubject.next($event);
+  }
+
+  executeAction($action) {
+
+    console.log('execute action');
+    console.log($action);
+
+    switch ($action.intent) {
+      case 'ChangeBackground': {
+        let bg;
+        do {
+          bg = this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)];
+          console.log(bg);
+        } while (bg === this.lastBackground);
+        this.lastBackground = bg;
+        this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/' + bg + '.mp4');
+        break;
+      }
+      case 'DoRelaxationExercices': {
+        if ($action.entities.length > 0) {
+          if ($action.entities[0].resolution.values[0] === 'relaxation') {
+            this.relaxWidget = true;
+          }
+        }
+        break;
+      }
+      case 'PlayMusic': {
+        if ($action.entities.length > 0) {
+          if ($action.entities[0].resolution.values[0] === 'playlist') {
+            this.chillMusicVideoWidget = true;
+          }
+        }
+        break;
+      }
+      case 'ShowWidget': {
+        if ($action.entities.length > 0 && $action.entities[0].type === 'widget') {
+          if ($action.entities[0].resolution.values[0] === 'santé') {
+            this.healthWidget = true;
+          }
+          if ($action.entities[0].resolution.values[0] === 'transit') {
+            this.transitWidget = true;
+          }
+          if ($action.entities[0].resolution.values[0] === 'musique') {
+            this.chillMusicVideoWidget = true;
+          }
+          if ($action.entities[0].resolution.values[0] === 'relaxation') {
+            this.relaxWidget = true;
+          }
+        }
+        break;
+      }
+      case 'HideWidget': {
+        if ($action.entities.length > 0 && $action.entities[0].type === 'widget') {
+          if ($action.entities[0].resolution.values[0] === 'santé') {
+            this.healthWidget = false;
+          }
+          if ($action.entities[0].resolution.values[0] === 'transit') {
+            this.transitWidget = false;
+          }
+          if ($action.entities[0].resolution.values[0] === 'musique') {
+            this.chillMusicVideoWidget = false;
+          }
+          if ($action.entities[0].resolution.values[0] === 'relaxation') {
+            this.relaxWidget = false;
+          }
+        }
+        break;
+      }
+      case 'None': {
+
+        break;
+      }
+      default: {
+
+      }
+    }
+
   }
 
 }

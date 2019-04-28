@@ -1,8 +1,7 @@
-app-env, app-health, app-chill-music-video, app-earth {
+app-env, app-health, app-chill-music-video, app-earth, app-office {
   position: relative;
   height: 100%;
   width: 100%;
-  opacity: 0.2;
   -webkit-animation-duration: 10s;
   animation-duration: 10s;
   -webkit-animation-fill-mode: both;
@@ -73,4 +72,5 @@ video {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
+
 

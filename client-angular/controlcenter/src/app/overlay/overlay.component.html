@@ -24,32 +24,36 @@
       </mat-card-actions>
     </mat-card>
 
-  <mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
 
+  <mat-grid-list style="margin-bottom: 10%;margin-top:10%" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
     <mat-grid-tile>
       <app-env></app-env>
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile [colspan]=2 >
+      <app-office></app-office>
+    </mat-grid-tile>
     <mat-grid-tile>
-      <app-chill-music-video></app-chill-music-video>
+      <app-chill-music-video *ngIf=this.chillMusicVideoWidget ></app-chill-music-video>
     </mat-grid-tile>
     <mat-grid-tile>
       <app-earth></app-earth>
     </mat-grid-tile>
     <mat-grid-tile>
-        <app-health (emitter)=this.dispatcher($event)></app-health>
+        <app-health [style.visibility]=displayWidget(this.healthWidget) (emitter)=this.dispatcher($event)></app-health>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <app-relax-and-breathe *ngIf=this.relaxWidget></app-relax-and-breathe>
     </mat-grid-tile>
     <mat-grid-tile>
+      <app-transit [style.visibility]=displayWidget(this.transitWidget) ></app-transit>
     </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile>
-        <app-fred [receiver]=this.actionObservable></app-fred>
+      <app-fred (emitter)=this.executeAction($event) [receiver]=this.actionObservable></app-fred>
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile><app-transit></app-transit></mat-grid-tile>
-    <mat-grid-tile> </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
@@ -57,37 +61,3 @@
   </mat-grid-list>
 
 
-  </mat-grid-tile>
-  <mat-grid-tile>
-
-  </mat-grid-tile>
-  <mat-grid-tile>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-earth></app-earth>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-health (emitter)=this.dispatcher($event)></app-health>
-  </mat-grid-tile>
-  <mat-grid-tile>
-
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <app-fred [receiver]=this.actionObservable></app-fred>
-  </mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile>
-    <app-transit></app-transit>
-  </mat-grid-tile>
-  <mat-grid-tile> </mat-grid-tile>
-  <mat-grid-tile>
-
-  </mat-grid-tile>
-
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-</mat-grid-list>

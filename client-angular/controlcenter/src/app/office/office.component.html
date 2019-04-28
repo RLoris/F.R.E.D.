@@ -1,0 +1,35 @@
+
+
+
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Bureaux</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile>
+                <h4>Oxygène</h4>
+                <br><br>
+                 {{this.oxygene}} %
+                <mat-progress-spinner
+                class="example-margin"
+                color="primary"
+                mode="determinate"
+                [value]="this.oxygene">
+              </mat-progress-spinner>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <h4>Température</h4>
+                <br><br>
+                 {{this.temperature}} °C
+                <mat-progress-spinner
+                  class="example-margin"
+                  color="warn"
+                  mode="determinate"
+                  [value]="this.temperature">
+                </mat-progress-spinner>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card-content>
+  </mat-card>

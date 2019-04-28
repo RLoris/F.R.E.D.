@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chill-music-video',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChillMusicVideoComponent implements OnInit {
 
-  displayPlaylist = false;
+  displayPlaylist = true;
 
   constructor() { }
 

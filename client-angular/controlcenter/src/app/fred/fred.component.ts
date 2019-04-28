@@ -37,7 +37,14 @@ export class FredComponent implements OnInit {
     this.receiver.subscribe(
       (data) => {
         console.log(data);
-        this.talk(Responses.welcome);
+        if (this.recording) {
+          console.log('stopping');
+          this.stop();
+        } else {
+          this.talk(Responses.Help);
+          console.log('starting');
+          setTimeout(() => this.start(), 2000);
+        }
       }
     );
     this.recording = false;
@@ -49,9 +56,9 @@ export class FredComponent implements OnInit {
         this.audioRecorder.mimeType = 'audio/wav';
         this.audioRecorder.ondataavailable = (blob) => {
             this.lastBlob = blob;
-            this.player.nativeElement.controls = true;
-            this.player.nativeElement.srcObject = null;
-            this.player.nativeElement.src = URL.createObjectURL(blob);
+            // this.player.nativeElement.controls = true;
+            // this.player.nativeElement.srcObject = null;
+            // this.player.nativeElement.src = URL.createObjectURL(blob);
         };
     },
       (error) => {
@@ -59,7 +66,7 @@ export class FredComponent implements OnInit {
     });
   }
 
-  listen(arraybuffer) {
+  listen() {
     const fileReader = new FileReader();
     fileReader.onload = (event: any) => {
       this.speech2text.speechToTextGoogle(event.target.result, Credentials.speech2textEndpoint, Credentials.speech2textKey, 'fr-FR')
@@ -71,10 +78,12 @@ export class FredComponent implements OnInit {
   }
 
   talk(response) {
-    const res = this.text2speech.textToSpeechGoogle(response, Credentials.text2speechEndpoint, Credentials.text2speechKey, 'fr-FR', 'MALE');
+    // tslint:disable-next-line:max-line-length
+    const res = this.text2speech.textToSpeechGoogle(response, Credentials.text2speechEndpoint, Credentials.text2speechKey, 'fr-FR', 'NEUTRAL');
     res.subscribe(
       (result) => {
         this.player.nativeElement.src = 'data:audio/mpeg;base64,' + result.audioContent;
+        this.player.nativeElement.play();
       },
       (err) => {
         console.log(err);
@@ -87,6 +96,17 @@ export class FredComponent implements OnInit {
     res.subscribe(
       (suc) => {
         console.log(suc);
+        if (suc.topScoringIntent.intent) {
+          const i = suc.topScoringIntent.intent;
+          const response = Responses[i];
+          this.emitter.emit(
+            {
+              intent: i,
+              entities: suc.entities
+            }
+          );
+          this.talk(response);
+        }
       },
       (err) => {
         console.log(err);
@@ -103,6 +123,7 @@ export class FredComponent implements OnInit {
   stop() {
     this.recording = false;
     this.audioRecorder.stop();
+    this.listen();
   }
 
 }

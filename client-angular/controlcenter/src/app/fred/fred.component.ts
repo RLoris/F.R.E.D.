@@ -105,7 +105,8 @@ export class FredComponent implements OnInit {
               entities: suc.entities
             }
           );
-          this.talk(response);
+          // random value
+          this.talk(response[Math.floor(Math.random() * response.length)]);
         }
       },
       (err) => {

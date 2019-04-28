@@ -70,6 +70,7 @@ export class OverlayComponent implements OnInit {
   labeledDescriptors;
 
   private modelLoaded;
+  loadingStatus: number;
   // dispatching
   actionSubject = new Subject<any>();
   actionObservable = this.actionSubject.asObservable();
@@ -102,10 +103,17 @@ export class OverlayComponent implements OnInit {
   }
 
   async loadModels() {
+    this.loadingStatus = 0;
     await faceapi.loadSsdMobilenetv1Model('assets/models').then(
-      async () => await faceapi.loadFaceLandmarkModel('assets/models').then(
-        async () => await faceapi.loadFaceRecognitionModel('assets/models').then(
-          async () => await faceapi.loadFaceExpressionModel('assets/models').then(
+      async () => {
+        this.loadingStatus = 10;
+        await faceapi.loadFaceLandmarkModel('assets/models').then(
+        async () => {
+          this.loadingStatus = 20;
+          await faceapi.loadFaceRecognitionModel('assets/models').then(
+          async () => {
+            this.loadingStatus = 30;
+            await faceapi.loadFaceExpressionModel('assets/models').then(
             async () => await this.lorisLabeledDescriptors().then (
               async () => await this.massimoLabeledDescriptors().then (
                 async () => await this.melissaLabeledDescriptors().then (
@@ -113,7 +121,10 @@ export class OverlayComponent implements OnInit {
                     async () => await this.romainLabeledDescriptors().then (
                       async () => await this.victorLabeledDescriptors().then(
                         async () => await this.xavierLabeledDescriptors().then (
-                        () => this.modelLoaded = true
+                        () => {
+                          this.modelLoaded = true;
+                          this.loadingStatus = 100;
+                          }
                         )
                       )
                     )
@@ -121,10 +132,10 @@ export class OverlayComponent implements OnInit {
                 )
               )
             )
-          )
-        )
-      )
-    );
+          );
+        });
+      });
+    });
   }
 
   initStreamDetection(videoSource = null) {
@@ -200,10 +211,10 @@ export class OverlayComponent implements OnInit {
                 }
                 console.log('nom : ' + bestMatch.label.toString());
                 clearTimeout(this.detectedId);
-                this.isOccupied = true;
-                this.isDust = false;
                 this.video.nativeElement.loop = false;
                 setTimeout( () => {
+                  this.isDust = false;
+                  this.isOccupied = true;
                   this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
                   this.video.nativeElement.loop = true;
                 }, 5000);
@@ -308,6 +319,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Guillaume', arrayDescriptors));
+
+    this.loadingStatus = 70;
   }
 
   private async lorisLabeledDescriptors() {
@@ -325,6 +338,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Loris', arrayDescriptors));
+
+    this.loadingStatus = 40;
   }
 
   private async massimoLabeledDescriptors() {
@@ -342,6 +357,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Massimo', arrayDescriptors));
+
+    this.loadingStatus = 50;
   }
 
   private async melissaLabeledDescriptors() {
@@ -359,6 +376,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Melissa', arrayDescriptors));
+
+    this.loadingStatus = 60;
   }
 
   private async romainLabeledDescriptors() {
@@ -376,6 +395,9 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Romain', arrayDescriptors));
+
+
+    this.loadingStatus = 80;
   }
 
   private async victorLabeledDescriptors() {
@@ -393,6 +415,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Victor', arrayDescriptors));
+
+    this.loadingStatus = 90;
   }
 
   private async xavierLabeledDescriptors() {
@@ -410,6 +434,8 @@ export class OverlayComponent implements OnInit {
     }
 
     this.labeledDescriptors.push(new LabeledFaceDescriptors('Xavier', arrayDescriptors));
+
+    this.loadingStatus = 95;
   }
 
   /* handles all type of errors from usermedia API */
@@ -418,7 +444,13 @@ export class OverlayComponent implements OnInit {
   }
 
   dispatcher($event) {
-    this.actionSubject.next($event);
+    if ($event === 'miband') {
+      // buttonbot clicker
+      this.actionSubject.next($event);
+    } else if ($event.rate) {
+      // heart rate
+      // TODO :
+    }
   }
 
   executeAction($action) {

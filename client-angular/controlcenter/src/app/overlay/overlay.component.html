@@ -1,15 +1,25 @@
-<div id="container" style="background-color: black">
+  <div id="container" style="background-color: black">
     <video id="stream" [src]=this.background class="overlay center" autoplay>
     </video>
   </div>
-  <select #devices >
-      <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}</option>
-  </select>
+  <div style="color: white; margin: 25%; text-align: center; display: block" *ngIf=!this.modelLoaded>
+      <h2>Démarrage de F.R.E.D. alimenté par MarsVel</h2>
+      <br>
+      <mat-progress-bar mode="determinate" color="warn" [value]=this.loadingStatus></mat-progress-bar>
+      <br>
+      <h3>Friendly Remote Environnement Desktop</h3>
+      <p>Mélissa Fontesse - Victor Pastorani - Romain Blondeau - Guillaume Rigaux - Massimo Gentile - Loris Rossi</p>
+  </div>
+
+
   <mat-card style="display:none" class="example-card">
       <mat-card-header>
         <mat-card-title>Camera</mat-card-title>
       </mat-card-header>
       <mat-card-content>
+          <select #devices >
+              <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}</option>
+          </select>
               <div style="text-align: center;">
                   <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate"></mat-progress-bar>
                     <div>

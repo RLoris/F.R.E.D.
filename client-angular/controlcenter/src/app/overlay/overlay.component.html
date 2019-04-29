@@ -18,7 +18,7 @@
         <mat-card-title>Camera</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-          <select #devices >
+          <select #devices style="text-align: center">
               <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}</option>
           </select>
               <div style="text-align: center;">

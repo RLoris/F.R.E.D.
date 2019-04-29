@@ -64,7 +64,6 @@ export class OverlayComponent implements OnInit {
   relaxWidget = false;
 
   // dispatching bot
-  isFirstTry = true;
   isOccupied = false;
   isDust = false;
   cptTry = 3;
@@ -152,16 +151,10 @@ export class OverlayComponent implements OnInit {
           .withFaceLandmarks()
           .withFaceDescriptor();
 
-          console.log(result);
-
           if (!result) {
-            if (this.isFirstTry) {
-              this.isFirstTry = false;
-            }
-            this.cptTry --;
+            this.cptTry--;
             if (this.cptTry === 0) {
-              if (!this.isDust) {
-                this.cptTry = 3;
+                this.cptTry = 2 ;
                 this.detectedId = setTimeout( () => {
                   this.isOccupied = false;
                   this.isDust = true;
@@ -169,7 +162,6 @@ export class OverlayComponent implements OnInit {
                   console.log('changing to dust');
                   this.video.nativeElement.loop = true;
                 }, 5000);
-              }
             }
           } else {
               if (this.isOccupied === false) {
@@ -224,17 +216,17 @@ export class OverlayComponent implements OnInit {
               result.expressions.forEach( expression => {
                 if (expression.probability >= 0.99) {
                   if (expression.expression === 'sad') {
-                    this.actionSubject.next({
+                    /*this.actionSubject.next({
                       say : 'Vous semblez triste, je lance une playlist pour vous remonter le moral'
-                    });
+                    });*/
                     // Operate changes on the environnement
                     console.log(expression.expression);
 
                     // Play music
-                    this.chillMusicVideoWidget = true;
+                    // this.chillMusicVideoWidget = true;
 
                     // Cut vidéo
-                    this.relaxWidget = false;
+                    // this.relaxWidget = false;
 
                     // Change background
                     let bg;
@@ -245,14 +237,14 @@ export class OverlayComponent implements OnInit {
                     this.lastBackground = bg;
                     this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/' + bg + '.mp4');
                   } else if (expression.expression === 'angry') {
-                    this.actionSubject.next({
+                    /* this.actionSubject.next({
                       say : 'Vous semblez faché, je lance une playlist pour vous détendre'
-                    });
+                    });*/
                     // Play video
-                    this.relaxWidget = true;
+                    // this.relaxWidget = true;
 
                     // Cut music
-                    this.chillMusicVideoWidget = false;
+                    // this.chillMusicVideoWidget = false;
                   }
                 }
               } );
@@ -276,7 +268,8 @@ export class OverlayComponent implements OnInit {
    /* Start or restart the stream using a specific videosource and inject it in a container */
   public startStream(videoSource = null) {
 
-    this.videoSource = localStorage.getItem('camId');
+    localStorage.removeItem('camId');
+    // this.videoSource = localStorage.getItem('camId');
 
     if (navigator.mediaDevices) {
         if (this.selectors.map(s => s.id).indexOf(this.videoSource) === -1) {
@@ -478,16 +471,16 @@ export class OverlayComponent implements OnInit {
       this.actionSubject.next($event);
     } else if ($event.rate) {
       // heart rate
-      const testLimitRate = 100;
+      const testLimitRate = 130;
       console.log('bpm : ' + $event.rate);
       if ($event.rate > testLimitRate) {
         this.actionSubject.next({
-          say : 'Vos battements de coeur semblent élevés, il est peut être temps de faire une pause'
+          say : 'Vos battements de coeur semblent élevés, il est peut-être temps de faire une pause'
         });
         // Play video
-        this.relaxWidget = true;
+        // this.relaxWidget = true;
         // Cut music
-        this.chillMusicVideoWidget = false;
+        // this.chillMusicVideoWidget = false;
       }
     }
   }
@@ -504,6 +497,9 @@ export class OverlayComponent implements OnInit {
           // cosy mode
           if ($action.entities[0].entity === 'cosy') {
             bg = 'fire';
+          }
+          if ($action.entities[0].entity === 'terre') {
+            bg = 'earth';
           }
         } else {
           do {

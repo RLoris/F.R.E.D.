@@ -83,7 +83,7 @@ export class FredComponent implements OnInit {
 
   talk(response) {
     // tslint:disable-next-line:max-line-length
-    const res = this.text2speech.textToSpeechGoogle(response, Credentials.text2speechEndpoint, Credentials.text2speechKey, 'fr-FR', 'NEUTRAL');
+    const res = this.text2speech.textToSpeechGoogle(response, Credentials.text2speechEndpoint, Credentials.text2speechKey, 'fr-FR', 'MALE');
     res.subscribe(
       (result) => {
         this.player.nativeElement.src = 'data:audio/mpeg;base64,' + result.audioContent;

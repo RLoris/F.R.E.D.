@@ -378,3 +378,5 @@ ASALocalRun/
 /client-angular/controlcenter/package-lock.json
 
 client-angular/controlcenter/src/app/fred/credentials\.ts
+
+package-lock\.json

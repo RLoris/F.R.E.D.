@@ -16,7 +16,7 @@ export const Responses = {
     'La 18ème merveille de Mars viens d\'être détruite ! Elon a encore envoyé un éléphant dans l\'espace et celui-ci est retombé sur la grande muraille des turcs.',
     'J\'ai le regret de vous annoncer que Johnny Hallyday est décédé il y a maintenant 30ans, il savait pourtant bien allumer le feu.',
     // tslint:disable-next-line:max-line-length
-    'Un nouvel aliment vient d\'être créée en laboratoire, celui-ci est le mélange d\'un espagnol et d\'une betonière et se prénome un parpaing.',
+    'Un nouvel aliment vient d\'être créée en laboratoire, celui-ci est le mélange d\'un portugais et d\'une betonière et se prénome un parpaing.',
     'Regarder dehors ! Une Xavier Vercruysse sauvage en train de cramer un raspberry pie est apparu.',
     'Une nouvelle ère est sur le point de commencer, les gitans arrivent eux aussi pour coloniser Mars avec leurs caravanes rocket heavy.',
     // tslint:disable-next-line:max-line-length

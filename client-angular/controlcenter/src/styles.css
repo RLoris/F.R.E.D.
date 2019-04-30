@@ -1,0 +1,18 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+}
+
+.mat-card:not.mat-elevation-z0{
+  box-shadow : none !important;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+

@@ -1,0 +1,84 @@
+  <div id="container" style="background-color: black">
+    <video id="stream" [src]=this.background class="overlay center" autoplay>
+    </video>
+  </div>
+  <div style="color: white; margin: 25%; text-align: center; display: block" *ngIf=!this.modelLoaded>
+      <h2>Démarrage de F.R.E.D. alimenté par MarsVel</h2>
+      <br>
+      <mat-progress-bar mode="determinate" color="warn" [value]=this.loadingStatus></mat-progress-bar>
+      <br>
+      <h3>Friendly Remote Environnement Desktop</h3>
+      <img src="assets/team.PNG" width="500" style="opacity: 0.5" alt='team'>
+      <p>Mélissa Fontesse - Victor Pastorani - Romain Blondeau - Guillaume Rigaux - Massimo Gentile - Loris Rossi</p>
+  </div>
+
+
+  <mat-card style="display:none" class="example-card">
+      <mat-card-header>
+        <mat-card-title>Camera</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <select #devices style="text-align: center">
+              <option *ngFor="let cam of this.selectors" (click)="this.startStream(cam.id)" value="{{cam.id}}">Camera {{cam.label}}</option>
+          </select>
+              <div style="text-align: center;">
+                  <mat-progress-bar *ngIf="this.isLoading" mode="indeterminate"></mat-progress-bar>
+                    <div>
+                      <div id="overlayContainer" class="center">
+                        <video id="stream" #webcam autoplay></video>
+                        <canvas #canvas2 id="overlay" ></canvas>
+                      </div>
+                    </div>
+              </div>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+
+
+  <mat-grid-list style="margin-top: 0" [style.visibility]=isVisible() cols="5" rowHeight="33vh">
+    <mat-grid-tile>
+      <app-env></app-env>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]=2>
+      <app-office></app-office>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-chill-music-video *ngIf=this.chillMusicVideoWidget ></app-chill-music-video>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-earth></app-earth>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-relax-and-breathe *ngIf=this.relaxWidget></app-relax-and-breathe>
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-health [style.visibility]=displayWidget(this.healthWidget) (emitter)=this.dispatcher($event)></app-health>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <app-fred (emitter)=this.executeAction($event) [receiver]=this.actionObservable></app-fred>
+    </mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-transit [style.visibility]=displayWidget(this.transitWidget) style="padding-bottom:25%"></app-transit>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+
+

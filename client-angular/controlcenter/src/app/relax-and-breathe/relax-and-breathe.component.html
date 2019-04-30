@@ -1,0 +1,8 @@
+<mat-card class="example-card" (click)=togglePlaylist()>
+  <mat-card-header>
+    <mat-card-title>Relax and Breathe Protocol</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+      <iframe id="tutorial" *ngIf=this.displayPlaylist src="https://www.youtube.com/embed/04PgJqJGLQc?showinfo=0&rel=0&autoplay=1&loop=1" frameborder="0" allowfullscreen="true" allow="allowfullscreen, accelerometer; autoplay; encrypted-media"></iframe>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,154 @@
+.example-card {
+  max-width: 100%;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+mat-card {
+	background: rgba(255, 255, 255, 0);
+}
+
+mat-card-title{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
+}
+
+mat-card-subtitle{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
+  font-style: italic;
+}
+mat-card-content{
+  color: rgb(255,255,255,1);
+  font-weight: bold;
+}
+
+.icons {
+  height: 10%;
+  width: 10%;
+  text-align: center;
+  padding-right: 3%;
+}
+
+/*icons*/
+div {
+  margin-top: 10%;
+  margin-left: 50%;
+}
+
+svg {
+  text-align: center;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+}
+
+#icon-pie-chart .chart-data {
+  -webkit-animation-name: datapart;
+  animation-name: datapart;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+}
+
+@-webkit-keyframes datapart {
+  0% {
+          -webkit-transform: translateY(0) translateX(0) scale(1);
+          transform: translateY(0) translateX(0) scale(1);
+  }
+
+  100% {
+          -webkit-transform: translateY(-4px) translateX(4px) scale(0.5);
+          transform: translateY(-4px) translateX(4px) scale(0.5);
+  }
+}
+
+@keyframes datapart {
+  0% {
+          -webkit-transform: translateY(0) translateX(0) scale(1);
+          transform: translateY(0) translateX(0) scale(1);
+  }
+
+  100% {
+          -webkit-transform: translateY(-4px) translateX(4px) scale(0.5);
+          transform: translateY(-4px) translateX(4px) scale(0.5);
+  }
+}
+
+#icon-take-off .plane-take-off {
+  -webkit-animation: take-off linear 2s infinite;
+  animation: take-off linear 2s infinite;
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+@-webkit-keyframes take-off {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate(0px, 0px) scaleX(1) scaleY(1);
+    transform: translate(0px, 0px) scaleX(1) scaleY(1);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate(90px, -35px) scaleX(0.88) scaleY(0.88);
+    transform: translate(90px, -35px) scaleX(0.88) scaleY(0.88);
+  }
+}
+
+@keyframes take-off {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate(0px, 0px) scaleX(1) scaleY(1);
+    transform: translate(0px, 0px) scaleX(1) scaleY(1);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate(90px, -35px) scaleX(0.88) scaleY(0.88);
+    transform: translate(90px, -35px) scaleX(0.88) scaleY(0.88);
+  }
+}
+
+#icon-location {
+  -webkit-animation: location-bounce .5s linear infinite both;
+  animation: location-bounce .5s linear infinite both;
+}
+
+@-webkit-keyframes location-bounce {
+
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  50% {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes location-bounce {
+
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  50% {
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+  }
+}

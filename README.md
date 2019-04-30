@@ -12,7 +12,7 @@ The mission was to 'Improve life in the office on MARS'.
 
 ## Friendly remote environnement desktop
 
-![F.R.E.D. final overlay picture](./assets/overlay.jpg)
+![Board introducting F.R.E.D. picture](./assets/introducing.jpg)
 
 We are introducing F.R.E.D, it's a smart assistant aiming to improve daily life on MARS.
 F.R.E.D. will be deployed on smart windows in the near future.
@@ -34,9 +34,13 @@ F.R.E.D. is able to change the window background, display/hide smart widgets,hel
 - Relax&Breathe
 - Transit
 
+![F.R.E.D. final overlay picture](./assets/overlay.jpg)
+
 # Team
 
 The team behind this idea is Mars-Vel.
+
+![Board vision of the future with F.R.E.D. picture](./assets/vision.jpg)
 
 ## Mars-Vel Assemble
 

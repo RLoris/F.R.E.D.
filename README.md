@@ -25,14 +25,14 @@ F.R.E.D. is able to change the window background, display/hide smart widgets,hel
 
 ### Smart Widgets
 
-ChillMusicVideo
-Earth
-Environnement
-F.R.E.D.
-Health
-Office
-Relax&Breathe
-Transit
+- ChillMusicVideo
+- Earth
+- Environnement
+- F.R.E.D.
+- Health
+- Office
+- Relax&Breathe
+- Transit
 
 # Team
 
@@ -43,14 +43,14 @@ The team behind this idea is Mars-Vel.
 ![F.R.E.D. demonstration stand picture](./assets/stand.jpg)
 
 ### Developpers
-Melissa Fontesse
-Massimo Gentile
-Victor Pastorani
-Guillaume Rigaux
-Loris Rossi
+- Melissa Fontesse
+- Massimo Gentile
+- Victor Pastorani
+- Guillaume Rigaux
+- Loris Rossi
 
 ### Graphic designer
-Romain Blondeau
+- Romain Blondeau
 
 # Mission Report
 

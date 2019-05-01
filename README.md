@@ -1,3 +1,18 @@
+# Menu
+
+* [MARS Hackaton](#mars-hackaton)
+* [Project F.R.E.D.](#f.r.e.d.)
+	- [Friendly remote environnement desktop](#friendly-remote-environnement-desktop)
+	- [Smart Widgets](#smart-widgets)
+* [Team](#team)
+	- [Mars-Vel Assemble](#mars-vel-assemble)
+	- [Developpers](#developpers)
+    - [Graphic designer](#graphic-designer)
+* [Mission Report](#mission-report)
+    - [Successful landing for F.R.E.D.][#successful-landing-for-f.r.e.d.]
+* [License](#license)
+* [Technologies](#technologies)
+
 # MARS Hackaton
 
 ![Space office event goodies picture](./assets/tshirt.jpg)
@@ -59,6 +74,8 @@ The team behind this idea is Mars-Vel.
 # Mission Report
 
 ### Successful landing for F.R.E.D.
+
+![award picture](./assets/award.jpg)
 
 We got the audience award for this innovative concept. Thank you everyone for believing in us.
 

@@ -9,7 +9,7 @@
 	- [Developpers](#developpers)
     - [Graphic designer](#graphic-designer)
 * [Mission Report](#mission-report)
-    - [Successful landing for F.R.E.D.][#successful-landing]
+    - [Successful landing for F.R.E.D.](#successful-landing)
 * [License](#license)
 * [Technologies](#technologies)
 

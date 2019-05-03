@@ -1,6 +1,6 @@
 # Menu
 
-* [MARS Hackaton](#mars-hackaton)
+* [Space Office Hackaton](#space-office-hackaton)
 * [Project F.R.E.D.](#project-fred)
 	- [Friendly remote environnement desktop](#friendly-remote-environnement-desktop)
 	- [Smart Widgets](#smart-widgets)
@@ -15,7 +15,7 @@
 	- [Angular Front end](#front-end-angular)
     - [Python Back end](#back-end-python)
 
-# MARS Hackaton
+# Space Office Hackaton
 
 ![Space office event goodies picture](./assets/tshirt.jpg)
 

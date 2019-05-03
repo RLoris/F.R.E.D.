@@ -65,11 +65,10 @@ export class OverlayComponent implements OnInit {
 
   // dispatching bot
   isOccupied = false;
-  isDust = false;
   cptTry = 3;
   labeledDescriptors;
 
-  private modelLoaded;
+  modelLoaded;
   loadingStatus: number;
   // dispatching
   actionSubject = new Subject<any>();
@@ -153,14 +152,17 @@ export class OverlayComponent implements OnInit {
 
           if (!result) {
             this.cptTry--;
-            if (this.cptTry === 0) {
-              this.cptTry = 2;
+            if (this.cptTry <= 0) {
+              this.cptTry = 3;
               this.detectedId = setTimeout(() => {
                 this.isOccupied = false;
-                this.isDust = true;
-                this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
-                console.log('changing to dust');
-                this.video.nativeElement.loop = true;
+                if (this.lastBackground !== 'dust') {
+                  console.log('changing to dust');
+                  this.lastBackground = 'dust';
+                  this.background = this.sanitizer.bypassSecurityTrustResourceUrl('../../assets/dust.mp4');
+                  this.video.nativeElement.loop = true;
+                  this.video.nativeElement.play();
+                }
               }, 5000);
             }
           } else {
@@ -208,7 +210,7 @@ export class OverlayComponent implements OnInit {
               this.video.nativeElement.loop = false;
               this.isOccupied = true;
               setTimeout(() => {
-                this.isDust = false;
+                this.lastBackground = 'rain2';
                 this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/rain2.mp4');
                 this.video.nativeElement.loop = true;
               }, 5000);
@@ -516,6 +518,8 @@ export class OverlayComponent implements OnInit {
         if ($action.entities.length > 0) {
           if ($action.entities[0].resolution.values[0] === 'relaxation') {
             this.relaxWidget = true;
+          } else {
+            this.relaxWidget = true;
           }
         }
         break;
@@ -523,6 +527,8 @@ export class OverlayComponent implements OnInit {
       case 'PlayMusic': {
         if ($action.entities.length > 0) {
           if ($action.entities[0].resolution.values[0] === 'playlist') {
+            this.chillMusicVideoWidget = true;
+          } else {
             this.chillMusicVideoWidget = true;
           }
         }
@@ -536,7 +542,7 @@ export class OverlayComponent implements OnInit {
           if ($action.entities[0].resolution.values[0] === 'transit') {
             this.transitWidget = true;
           }
-          if ($action.entities[0].resolution.values[0] === 'musique') {
+          if ($action.entities[0].resolution.values[0] === 'playlist') {
             this.chillMusicVideoWidget = true;
           }
           if ($action.entities[0].resolution.values[0] === 'relaxation') {
@@ -553,7 +559,7 @@ export class OverlayComponent implements OnInit {
           if ($action.entities[0].resolution.values[0] === 'transit') {
             this.transitWidget = false;
           }
-          if ($action.entities[0].resolution.values[0] === 'musique') {
+          if ($action.entities[0].resolution.values[0] === 'playlist') {
             this.chillMusicVideoWidget = false;
           }
           if ($action.entities[0].resolution.values[0] === 'relaxation') {
@@ -566,7 +572,7 @@ export class OverlayComponent implements OnInit {
         setTimeout(() => {
           this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/storm.mp4');
           setTimeout(() => {
-            this.isDust = false;
+            this.lastBackground = 'dust';
             this.background = this.sanitizer.bypassSecurityTrustResourceUrl('./../../assets/dust.mp4');
             this.video.nativeElement.loop = true;
           }, 16000);

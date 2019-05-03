@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { createCipheriv, Cipher } from 'crypto';
 
 const UUID_BASE = (x) => `0000${x}-0000-3512-2118-0009af100700`;
 
@@ -304,13 +305,14 @@ export default class Miband extends EventEmitter {
       if (cmd === '100101') {         // Set New Key OK
         this.authReqRandomKey();
       } else if (cmd === '100201') {  // Req Random Number OK
-        // const rdn = value.slice(3);
         // console.log(crypto);
         // const cipher = await crypto.subtle.encrypt('aes-128-ecb', this.key, null);
-        // const cipher = crypto.createCipheriv('aes-128-ecb', this.key, '');
-        // const encrypted = Buffer.concat([cipher.update(rdn), cipher.final()]);
-        // this.authSendEncKey(encrypted);
-        this.authReqRandomKey();
+        const rdn = value.slice(3);
+        const cipher: Cipher = createCipheriv('aes-128-ecb', this.key, '');
+        console.log(cipher);
+        const encrypted = Buffer.concat([cipher.update(rdn), cipher.final()]);
+        console.log(encrypted);
+        this.authSendEncKey(encrypted);
       } else if (cmd === '100301') {
         console.log('Authenticated');
         // @ts-ignore

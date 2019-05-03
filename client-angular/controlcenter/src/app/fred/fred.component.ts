@@ -21,6 +21,7 @@ export class FredComponent implements OnInit {
   @ViewChild('player')
   player;
   private lastBlob: Blob;
+  holo = 'coral';
 
   private audioRecorder: MediaStreamRecorder;
   private mediaConstraints = {
@@ -35,21 +36,7 @@ export class FredComponent implements OnInit {
 
   ngOnInit() {
     this.receiver.subscribe(
-      (data) => {
-        if (data === 'miband') {
-          if (this.recording) {
-            console.log('stopping');
-            this.stop();
-          } else {
-            this.talk(Responses.Help[0]);
-            console.log('starting');
-            setTimeout(() => this.start(), 2000);
-          }
-        } else if (data.say) {
-          this.talk(data.say);
-        }
-        console.log(data);
-      }
+      (data) => this.interact(data)
     );
     this.recording = false;
 
@@ -70,12 +57,36 @@ export class FredComponent implements OnInit {
     });
   }
 
+  interact(data) {
+    if (data === 'miband') {
+      if (this.recording) {
+        this.holo = 'coral';
+        console.log('stopping');
+        this.stop();
+      } else {
+        this.holo = 'dodgerblue';
+        this.talk(Responses.Help[0]);
+        console.log('starting');
+        setTimeout(() => this.start(), 2000);
+      }
+    } else if (data.say) {
+      this.talk(data.say);
+    }
+    console.log(data);
+  }
+
+  styleBoxShadow() {
+    return '0 0 60px ' + this.holo + ', inset 0 0 60px ' + this.holo;
+  }
+
   listen() {
     const fileReader = new FileReader();
     fileReader.onload = (event: any) => {
       this.speech2text.speechToTextGoogle(event.target.result, Credentials.speech2textEndpoint, Credentials.speech2textKey, 'fr-FR')
       .subscribe((result) => {
-        this.process(result.results[0].alternatives[0].transcript);
+        if (result) {
+          this.process(result.results[0].alternatives[0].transcript);
+        }
       });
     };
     fileReader.readAsArrayBuffer(this.lastBlob);

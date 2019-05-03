@@ -9,7 +9,7 @@ export const Responses = {
   PlayMusic: ['Je lance un morceau de musique pour vous'],
   ShowWidget: ['J\'affiche ce widget'],
   News: [
-    'En l\'an de grâce 23 PEML(Post Elon Musk Landing), nous finîmes par réussir à enfin exterminer les vegans.',
+    'En l\'an de grâce 23 PEML(Post Elon Musk Landing), nous finîmes par réussir à enfin exterminer les vegane.',
     // tslint:disable-next-line:max-line-length
     'Avis à tous les chimistes (et maîtres artificiers par la même occasion), un nouveau matériau extrêmement explosif vient d\'être découvert. Vous pouvez maintenant sauter dessus sans mauvais jeux de mot',
     // tslint:disable-next-line:max-line-length

@@ -12,6 +12,8 @@
     - [Successful landing for F.R.E.D.](#successful-landing)
 * [License](#license)
 * [Technologies](#technologies)
+	- [Angular Front end](#front-end-angular)
+    - [Python Back end](#back-end-python)
 
 # MARS Hackaton
 
@@ -90,13 +92,13 @@ Be ready for MARS !
 
 # Technologies
 
-### Front end: Angular
+### Front end Angular
 
 - Face api (tensorflowJS)
 - Mi band 2 js (health data)
 - Cognitive services Microsoft (LUIS)
 - Google services (Text to speech, Speech to text)
 
-### Back end:  Python
+### Back end Python
 
 - Flask (web api)

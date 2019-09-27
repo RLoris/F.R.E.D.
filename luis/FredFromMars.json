@@ -1,0 +1,908 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "FredFromMars",
+  "desc": "He's very smart.",
+  "culture": "fr-fr",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "ChangeBackground"
+    },
+    {
+      "name": "DidYouEverKnow"
+    },
+    {
+      "name": "DoRelaxationExercices"
+    },
+    {
+      "name": "HideWidget"
+    },
+    {
+      "name": "News"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "PlayMusic"
+    },
+    {
+      "name": "ShowWidget"
+    },
+    {
+      "name": "Warning"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "backgroundPreference",
+      "subLists": [
+        {
+          "canonicalForm": "mars",
+          "list": [
+            "la planète rouge",
+            "rouge",
+            "environnement marsien"
+          ]
+        },
+        {
+          "canonicalForm": "terre",
+          "list": [
+            "la planète bleue",
+            "environnement terrien"
+          ]
+        },
+        {
+          "canonicalForm": "nuit",
+          "list": [
+            "noire",
+            "noir",
+            "sombre",
+            "lugubre",
+            "nocturne"
+          ]
+        },
+        {
+          "canonicalForm": "jour",
+          "list": [
+            "lumineux",
+            "éclairé",
+            "clair",
+            "diurne"
+          ]
+        },
+        {
+          "canonicalForm": "neige",
+          "list": [
+            "blanc",
+            "froid",
+            "montagne"
+          ]
+        },
+        {
+          "canonicalForm": "pluie",
+          "list": [
+            "gris"
+          ]
+        },
+        {
+          "canonicalForm": "tempête",
+          "list": [
+            "venteux",
+            "vent"
+          ]
+        },
+        {
+          "canonicalForm": "cosy",
+          "list": [
+            "feu de cheminée",
+            "feu",
+            "intérieur"
+          ]
+        },
+        {
+          "canonicalForm": "mer",
+          "list": [
+            "océan",
+            "étendue d'eau",
+            "bleu"
+          ]
+        },
+        {
+          "canonicalForm": "forêt",
+          "list": [
+            "végétation",
+            "arbre",
+            "vert",
+            "boisé"
+          ]
+        },
+        {
+          "canonicalForm": "ville",
+          "list": [
+            "building",
+            "bâtiment"
+          ]
+        },
+        {
+          "canonicalForm": "cantine",
+          "list": [
+            "star wars",
+            "science-fiction",
+            "restaurant"
+          ]
+        },
+        {
+          "canonicalForm": "station",
+          "list": [
+            "station spatiale",
+            "iss",
+            "International Space Station",
+            "Station spatiale internationale",
+            "Space station",
+            "ssi"
+          ]
+        },
+        {
+          "canonicalForm": "epic sax guy",
+          "list": []
+        },
+        {
+          "canonicalForm": "tesla",
+          "list": [
+            "elon musk"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "greet",
+      "subLists": [
+        {
+          "canonicalForm": "bonjour",
+          "list": [
+            "bijour"
+          ]
+        },
+        {
+          "canonicalForm": "hello",
+          "list": []
+        },
+        {
+          "canonicalForm": "wesh",
+          "list": []
+        },
+        {
+          "canonicalForm": "whatsup",
+          "list": [
+            "what's up"
+          ]
+        },
+        {
+          "canonicalForm": "yo",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "mood",
+      "subLists": [
+        {
+          "canonicalForm": "triste",
+          "list": [
+            "sad",
+            "morose",
+            "dépressif",
+            "dépressive"
+          ]
+        },
+        {
+          "canonicalForm": "relax",
+          "list": [
+            "chill",
+            "détendu",
+            "zen",
+            "détendue",
+            "relaxante",
+            "yoga"
+          ]
+        },
+        {
+          "canonicalForm": "joyeuse",
+          "list": [
+            "happy",
+            "content",
+            "heureux",
+            "heureuse"
+          ]
+        },
+        {
+          "canonicalForm": "énergisé",
+          "list": [
+            "énergique",
+            "fitness",
+            "dance",
+            "dansante",
+            "dansant",
+            "hype",
+            "sport"
+          ]
+        },
+        {
+          "canonicalForm": "epic",
+          "list": []
+        },
+        {
+          "canonicalForm": "romantique",
+          "list": [
+            "love",
+            "amour",
+            "amoureux",
+            "amoureuse"
+          ]
+        },
+        {
+          "canonicalForm": "concentré",
+          "list": [
+            "concentration",
+            "calm",
+            "study",
+            "étude",
+            "studieux",
+            "studieux",
+            "concentrée",
+            "calme",
+            "étudier",
+            "travailler",
+            "faire ses devoirs",
+            "se concentrer"
+          ]
+        },
+        {
+          "canonicalForm": "angoissé",
+          "list": [
+            "nerveux",
+            "nerveuse",
+            "angoissée",
+            "stressé",
+            "stressée"
+          ]
+        },
+        {
+          "canonicalForm": "colère",
+          "list": [
+            "énervé",
+            "énervée"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "no",
+      "subLists": [
+        {
+          "canonicalForm": "non",
+          "list": [
+            "no",
+            "nope"
+          ]
+        },
+        {
+          "canonicalForm": "vraiment pas",
+          "list": []
+        },
+        {
+          "canonicalForm": "trop pas",
+          "list": []
+        },
+        {
+          "canonicalForm": "carrément pas",
+          "list": []
+        },
+        {
+          "canonicalForm": "du tout",
+          "list": [
+            "pas du tout"
+          ]
+        },
+        {
+          "canonicalForm": "absolument pas",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "thank",
+      "subLists": [
+        {
+          "canonicalForm": "merci",
+          "list": [
+            "thanks",
+            "thank you",
+            "arigato",
+            "danke"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "widget",
+      "subLists": [
+        {
+          "canonicalForm": "santé",
+          "list": [
+            "health",
+            "battement de coeur",
+            "bpm",
+            "beats per minute",
+            "rythme cardiaque"
+          ]
+        },
+        {
+          "canonicalForm": "caméra",
+          "list": [
+            "cam",
+            "webcam",
+            "facecam",
+            "tête"
+          ]
+        },
+        {
+          "canonicalForm": "playlist",
+          "list": [
+            "musique",
+            "mood boost"
+          ]
+        },
+        {
+          "canonicalForm": "relaxation",
+          "list": [
+            "vidéo de relaxation",
+            "respiration",
+            "vidéo",
+            "exercices de respiration"
+          ]
+        },
+        {
+          "canonicalForm": "transit",
+          "list": [
+            "cargo"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "yes",
+      "subLists": [
+        {
+          "canonicalForm": "oui",
+          "list": [
+            "yes",
+            "ouais"
+          ]
+        },
+        {
+          "canonicalForm": "absolument",
+          "list": []
+        },
+        {
+          "canonicalForm": "carrément",
+          "list": []
+        },
+        {
+          "canonicalForm": "trop",
+          "list": []
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "absolument",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "active le widget santé",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "active l'onglet santé",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "affiche le widget relaxation",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "affiche l'onglet santé",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "affiche moi la playlist",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "affiche moi la terre",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "affiche-moi un feu de cheminée",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "arrête la playlist",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "arrête la séance de relaxation",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "arrête le morceau de musique",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "arrête les exercices de respiration",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "bonjour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "cache la caméra",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "cache le widget santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "carrément",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change d'environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change d'environnement pour moi",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change d'environnement s'il te plaît",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change l'environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change l'environnement s'il te plaît",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "changement d'environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "change-moi le fond d'écran",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "comment est la météo",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "coupe la vidéo",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "démarre spotify",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "démarre une playlist",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "désactive la musique",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "désactive la séance de relaxation",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "désactive le morceau de musique",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "désactive le widget santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "désactive l'onglet santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "désactiver widget transit",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "donne moi une anecdote",
+      "intent": "DidYouEverKnow",
+      "entities": []
+    },
+    {
+      "text": "donne moi une anecdote à raconter",
+      "intent": "DidYouEverKnow",
+      "entities": []
+    },
+    {
+      "text": "donne-moi des faits divers",
+      "intent": "News",
+      "entities": []
+    },
+    {
+      "text": "donne-moi des news",
+      "intent": "News",
+      "entities": []
+    },
+    {
+      "text": "enlève le widget caméra",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "enlève l'onglet santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "est-ce que c'est une bonne idée de sortir maintenant",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "est-ce que tout va bien?",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "j'ai besoin de faire des exercices de relaxation",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "je veux changer de fond d'écran",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux changer d'environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux changer le fond",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux de la musique qui m'aide à étudier",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "je veux des faits d'actualités",
+      "intent": "News",
+      "entities": []
+    },
+    {
+      "text": "je veux des faits divers",
+      "intent": "News",
+      "entities": []
+    },
+    {
+      "text": "je veux écouter de la musique",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "je veux faire des exercices de relaxation",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "je veux jouer de la musique calme",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "je veux mettre de la musique pour travailler",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "je veux trop ouais",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "je veux un fond lugubre",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux un fond plutôt bleu",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux voir la caméra",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "je veux voir la forêt",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux voir la terre",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "je veux voir le widget santé",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "j'en ai envie oui",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "joue de la musique",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "lance la vidéo d'exercices de respiration",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "mais oui",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "met en marche l'exercice de relaxation",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "met en route l'exercice de relaxation",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "met-moi de la musique",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "met-moi de la musique pour faire de la relaxation",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "met-moi de la musique pour faire du sport",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "mets-moi de la musique s'il te plaît",
+      "intent": "PlayMusic",
+      "entities": []
+    },
+    {
+      "text": "modifier mon environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "montre le cadre health",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "montre-moi ma tête",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "montre-moi une vue de la mer",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "no",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "oui",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "oui mais trop",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "ouvre la caméra",
+      "intent": "ShowWidget",
+      "entities": []
+    },
+    {
+      "text": "peux-tu changer d'environnement",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "peux-tu changer d'environnement s'il te plaît",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "quel est l'état de la météo",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "quelle est la météo",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "quelles sont les nouveautés",
+      "intent": "News",
+      "entities": []
+    },
+    {
+      "text": "quels sont les dangers",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "quels sont les risques aujourd'hui",
+      "intent": "Warning",
+      "entities": []
+    },
+    {
+      "text": "raconte moi quelque chose de surprennant",
+      "intent": "DidYouEverKnow",
+      "entities": []
+    },
+    {
+      "text": "raconte moi quelque chose que je ne sais pas",
+      "intent": "DidYouEverKnow",
+      "entities": []
+    },
+    {
+      "text": "réduit la vidéo",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "remet-moi la vue de mars",
+      "intent": "ChangeBackground",
+      "entities": []
+    },
+    {
+      "text": "retire la webcam",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "retire le cadre avec les informations de santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "retire le cadre santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "séance de relaxation",
+      "intent": "DoRelaxationExercices",
+      "entities": []
+    },
+    {
+      "text": "supprime l'affichage de la santé",
+      "intent": "HideWidget",
+      "entities": []
+    },
+    {
+      "text": "surprend moi",
+      "intent": "DidYouEverKnow",
+      "entities": []
+    },
+    {
+      "text": "vraiment pas",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "whesh",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "yes",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
